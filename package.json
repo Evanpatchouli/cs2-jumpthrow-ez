@@ -1,0 +1,14 @@
+{
+  "name": "device-listener",
+  "version": "1.0.0",
+  "description": "A simple Node.js application to capture keyboard and mouse strokes.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "run": "set NODE_ENV=production && bun index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "node-interception": "^2.0.4"
+  }
+}

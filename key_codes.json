@@ -1,0 +1,1010 @@
+{
+  "0": {
+    "down": [
+      {
+        "code": 11,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 11,
+        "state": 1
+      }
+    ]
+  },
+  "1": {
+    "down": [
+      {
+        "code": 2,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 2,
+        "state": 1
+      }
+    ]
+  },
+  "2": {
+    "down": [
+      {
+        "code": 3,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 3,
+        "state": 1
+      }
+    ]
+  },
+  "3": {
+    "down": [
+      {
+        "code": 4,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 4,
+        "state": 1
+      }
+    ]
+  },
+  "4": {
+    "down": [
+      {
+        "code": 5,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 5,
+        "state": 1
+      }
+    ]
+  },
+  "5": {
+    "down": [
+      {
+        "code": 6,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 6,
+        "state": 1
+      }
+    ]
+  },
+  "6": {
+    "down": [
+      {
+        "code": 7,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 7,
+        "state": 1
+      }
+    ]
+  },
+  "7": {
+    "down": [
+      {
+        "code": 8,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 8,
+        "state": 1
+      }
+    ]
+  },
+  "8": {
+    "down": [
+      {
+        "code": 9,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 9,
+        "state": 1
+      }
+    ]
+  },
+  "9": {
+    "down": [
+      {
+        "code": 10,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 10,
+        "state": 1
+      }
+    ]
+  },
+  "ESC": {
+    "down": [
+      {
+        "code": 0,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 0,
+        "state": 1
+      }
+    ]
+  },
+  "F1": {
+    "down": [
+      {
+        "code": 59,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 59,
+        "state": 1
+      }
+    ]
+  },
+  "F2": {
+    "down": [
+      {
+        "code": 60,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 60,
+        "state": 1
+      }
+    ]
+  },
+  "F3": {
+    "down": [
+      {
+        "code": 61,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 61,
+        "state": 1
+      }
+    ]
+  },
+  "F4": {
+    "down": [
+      {
+        "code": 62,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 62,
+        "state": 1
+      }
+    ]
+  },
+  "F5": {
+    "down": [
+      {
+        "code": 63,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 63,
+        "state": 1
+      }
+    ]
+  },
+  "F6": {
+    "down": [
+      {
+        "code": 64,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 64,
+        "state": 1
+      }
+    ]
+  },
+  "F7": {
+    "down": [
+      {
+        "code": 65,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 65,
+        "state": 1
+      }
+    ]
+  },
+  "F8": {
+    "down": [
+      {
+        "code": 66,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 66,
+        "state": 1
+      }
+    ]
+  },
+  "F9": {
+    "down": [
+      {
+        "code": 67,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 67,
+        "state": 1
+      }
+    ]
+  },
+  "F10": {
+    "down": [
+      {
+        "code": 68,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 68,
+        "state": 1
+      }
+    ]
+  },
+  "F11": {
+    "down": [
+      {
+        "code": 87,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 87,
+        "state": 1
+      }
+    ]
+  },
+  "F12": {
+    "down": [
+      {
+        "code": 88,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 88,
+        "state": 1
+      }
+    ]
+  },
+  "`": {
+    "down": [
+      {
+        "code": 41,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 41,
+        "state": 1
+      }
+    ]
+  },
+  "-": {
+    "down": [
+      {
+        "code": 12,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 12,
+        "state": 1
+      }
+    ]
+  },
+  "=": {
+    "down": [
+      {
+        "code": 13,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 13,
+        "state": 1
+      }
+    ]
+  },
+  "BACKSPACE": {
+    "down": [
+      {
+        "code": 14,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 14,
+        "state": 1
+      }
+    ]
+  },
+  "TAB": {
+    "down": [
+      {
+        "code": 15,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 15,
+        "state": 1
+      }
+    ]
+  },
+  "Q": {
+    "down": [
+      {
+        "code": 16,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 16,
+        "state": 1
+      }
+    ]
+  },
+  "W": {
+    "down": [
+      {
+        "code": 17,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 17,
+        "state": 1
+      }
+    ]
+  },
+  "E": {
+    "down": [
+      {
+        "code": 18,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 18,
+        "state": 1
+      }
+    ]
+  },
+  "R": {
+    "down": [
+      {
+        "code": 19,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 19,
+        "state": 1
+      }
+    ]
+  },
+  "T": {
+    "down": [
+      {
+        "code": 20,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 20,
+        "state": 1
+      }
+    ]
+  },
+  "Y": {
+    "down": [
+      {
+        "code": 21,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 21,
+        "state": 1
+      }
+    ]
+  },
+  "U": {
+    "down": [
+      {
+        "code": 22,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 22,
+        "state": 1
+      }
+    ]
+  },
+  "I": {
+    "down": [
+      {
+        "code": 23,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 23,
+        "state": 1
+      }
+    ]
+  },
+  "O": {
+    "down": [
+      {
+        "code": 24,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 24,
+        "state": 1
+      }
+    ]
+  },
+  "P": {
+    "down": [
+      {
+        "code": 25,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 25,
+        "state": 1
+      }
+    ]
+  },
+  "[": {
+    "down": [
+      {
+        "code": 26,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 26,
+        "state": 1
+      }
+    ]
+  },
+  "]": {
+    "down": [
+      {
+        "code": 27,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 27,
+        "state": 1
+      }
+    ]
+  },
+  "\\": {
+    "down": [
+      {
+        "code": 43,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 43,
+        "state": 1
+      }
+    ]
+  },
+  "CAPS_LOCK": {
+    "down": [
+      {
+        "code": 58,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 58,
+        "state": 1
+      }
+    ]
+  },
+  "A": {
+    "down": [
+      {
+        "code": 30,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 30,
+        "state": 1
+      }
+    ]
+  },
+  "S": {
+    "down": [
+      {
+        "code": 31,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 31,
+        "state": 1
+      }
+    ]
+  },
+  "D": {
+    "down": [
+      {
+        "code": 32,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 32,
+        "state": 1
+      }
+    ]
+  },
+  "F": {
+    "down": [
+      {
+        "code": 33,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 33,
+        "state": 1
+      }
+    ]
+  },
+  "G": {
+    "down": [
+      {
+        "code": 34,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 34,
+        "state": 1
+      }
+    ]
+  },
+  "H": {
+    "down": [
+      {
+        "code": 35,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 35,
+        "state": 1
+      }
+    ]
+  },
+  "J": {
+    "down": [
+      {
+        "code": 36,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 36,
+        "state": 1
+      }
+    ]
+  },
+  "K": {
+    "down": [
+      {
+        "code": 37,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 37,
+        "state": 1
+      }
+    ]
+  },
+  "L": {
+    "down": [
+      {
+        "code": 38,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 38,
+        "state": 1
+      }
+    ]
+  },
+  ";": {
+    "down": [
+      {
+        "code": 39,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 39,
+        "state": 1
+      }
+    ]
+  },
+  "'": {
+    "down": [
+      {
+        "code": 40,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 40,
+        "state": 1
+      }
+    ]
+  },
+  "ENTER": {
+    "down": [
+      {
+        "code": 28,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 28,
+        "state": 1
+      }
+    ]
+  },
+  "LEFTSHIFT": {
+    "down": [
+      {
+        "code": 42,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 42,
+        "state": 1
+      }
+    ]
+  },
+  "Z": {
+    "down": [
+      {
+        "code": 44,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 44,
+        "state": 1
+      }
+    ]
+  },
+  "X": {
+    "down": [
+      {
+        "code": 45,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 45,
+        "state": 1
+      }
+    ]
+  },
+  "C": {
+    "down": [
+      {
+        "code": 46,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 46,
+        "state": 1
+      }
+    ]
+  },
+  "V": {
+    "down": [
+      {
+        "code": 47,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 47,
+        "state": 1
+      }
+    ]
+  },
+  "B": {
+    "down": [
+      {
+        "code": 48,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 48,
+        "state": 1
+      }
+    ]
+  },
+  "N": {
+    "down": [
+      {
+        "code": 49,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 49,
+        "state": 1
+      }
+    ]
+  },
+  "M": {
+    "down": [
+      {
+        "code": 50,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 50,
+        "state": 1
+      }
+    ]
+  },
+  ",": {
+    "down": [
+      {
+        "code": 51,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 51,
+        "state": 1
+      }
+    ]
+  },
+  ".": {
+    "down": [
+      {
+        "code": 52,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 52,
+        "state": 1
+      }
+    ]
+  },
+  "/": {
+    "down": [
+      {
+        "code": 53,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 53,
+        "state": 1
+      }
+    ]
+  },
+  "RIGHTSHIFT": {
+    "down": [
+      {
+        "code": 54,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 54,
+        "state": 1
+      }
+    ]
+  },
+  "LEFT_CTRL": {
+    "down": [
+      {
+        "code": 29,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 29,
+        "state": 1
+      }
+    ]
+  },
+  "WINDOWS": {
+    "down": [
+      {
+        "code": 91,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 91,
+        "state": 3
+      }
+    ]
+  },
+  "LEFT_ALT": {
+    "down": [
+      {
+        "code": 56,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 56,
+        "state": 1
+      }
+    ]
+  },
+  "SPACE": {
+    "down": [
+      {
+        "code": 57,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 57,
+        "state": 1
+      }
+    ]
+  },
+  "RIGHT_ALT": {
+    "down": [
+      {
+        "code": 56,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 56,
+        "state": 3
+      }
+    ]
+  },
+  "RIGHT_CTRL": {
+    "down": [
+      {
+        "code": 29,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 29,
+        "state": 3
+      }
+    ]
+  }
+}

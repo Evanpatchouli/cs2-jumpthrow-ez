@@ -1,0 +1,124 @@
+{
+  "MOUSE1": [
+    {
+      "type": "mouse",
+      "state": 1,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    },
+    {
+      "type": "mouse",
+      "state": 2,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ],
+  "MOUSE2": [
+    {
+      "type": "mouse",
+      "state": 4,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    },
+    {
+      "type": "mouse",
+      "state": 8,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ],
+  "MOUSE3": [
+    {
+      "type": "mouse",
+      "state": 16,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    },
+    {
+      "type": "mouse",
+      "state": 32,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ],
+  "MOUSE4": [
+    {
+      "type": "mouse",
+      "state": 64,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    },
+    {
+      "type": "mouse",
+      "state": 128,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ],
+  "MOUSE5": [
+    {
+      "type": "mouse",
+      "state": 256,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    },
+    {
+      "type": "mouse",
+      "state": 512,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ],
+  "MWHEELUP": [
+    {
+      "type": "mouse",
+      "state": 1024,
+      "flags": 0,
+      "rolling": 120,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ],
+  "MWHEELDOWN": [
+    {
+      "type": "mouse",
+      "state": 1024,
+      "flags": 0,
+      "rolling": -120,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
+  ]
+}
