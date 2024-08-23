@@ -7,7 +7,7 @@ export declare namespace App {
     (device: Device, stroke: Stroke): void;
   }
   interface JitingHandler {
-    (stroke: Stroke, input: any, key?: keyof typeof keys): void;
+    (stroke: Stroke, input: any, toggleKey?: keyof typeof keys, switchDurationKey?: keyof typeof keys): void;
   }
   interface JumpThrowHandler {
     (stroke: Stroke, input: any, key?: keyof typeof keys): void;

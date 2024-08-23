@@ -64,11 +64,14 @@ async function listen() {
       input = getStrokeKey(stroke);
     }
     concurrentify(
-      // Add your handler below  往下添加附作用事件
-      jiting(stroke, input, "J"),
-      jumpThrow(stroke, input, "F8"),
-      // just work as jumpThrow, unknown the reason.
-      forwardjumpThrow(stroke, input, "F9")
+      // Add your side-effect handler below  往下添加附作用事件
+      jiting(stroke, input, "J"), // automatic-emergency-stop  jiting(stroke, input, "J", "K"), set the fourth parameter to switch the duration key.
+      jumpThrow(stroke, input, "F7"), // jump + attack1
+      jumpThrow2(stroke, input, "F8"), // jump + attack2
+      forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
+      jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
+      forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
+      rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
     );
   }
 
@@ -222,7 +225,7 @@ const upKey = async (device, key) => {
   await sequentialify(...funcs2);
 };
 
-// @todo 未来实现检测手动层面按键状态
+// @todo 未来实现检测手动层面鼠标状态
 const recordKeyState = (stroke) => {
   if (stroke.type === "keyboard") {
     const keyKeyNamesArray = Array.from(keyKeyNames);
@@ -248,15 +251,22 @@ const recordKeyState = (stroke) => {
   }
 };
 
-/** 效果非常不好，疑似是起效时间差过短导致被游戏引擎忽略
+/** Not work well when repeeking, so you should disable it when you repeek.
  * @type {import("./types").App.JitingHandler}
  */
-const jiting = (stroke, input, key) => {
+const jiting = (stroke, input, toggleKey, switchDurationKey) => {
   return async () => {
     if (stroke?.type !== "keyboard") return;
-    const toggleKey = key || "J";
+    toggleKey = toggleKey || "J";
+    // 启用或禁用
     if (input === KeyUpName(toggleKey)) {
       state.SET_JITING(!state.useJiting);
+    }
+    // 切换键程
+    if (switchDurationKey && keyKeyNames.has(switchDurationKey)) {
+      if (input === KeyUpName(switchDurationKey)) {
+        state.switchJTDuration();
+      }
     }
     if (state.useJiting === false) return;
     let execed = true;
@@ -270,7 +280,8 @@ const jiting = (stroke, input, key) => {
 
     const reverseKey = dekeyMap[input];
     if (reverseKey && !state.isKeyActive(reverseKey)) {
-      await useKey(reverseKey);
+      // press about 80ms is necessary, beacuse the game will ignore the key if it is too short  按压约state.JTDuration 是必要的，否则键程太短没有效果
+      await useKey(reverseKey, state.JTDuration());
     } else {
       execed = false;
     }
@@ -287,10 +298,29 @@ const jiting = (stroke, input, key) => {
 const jumpThrow = (stroke, input, key) => {
   return () => {
     if (stroke?.type !== "keyboard") return;
+    if (input === KeyUpName(key || "F7")) {
+      concurrentify(
+        () => {
+          useKey(cs2.attack1, state.pressDuration);
+        },
+        () => {
+          useKey(cs2.jump);
+        }
+      );
+    }
+  };
+};
+
+/**
+ * @type {import("./types").App.JumpThrowHandler}
+ */
+const jumpThrow2 = (stroke, input, key) => {
+  return () => {
+    if (stroke?.type !== "keyboard") return;
     if (input === KeyUpName(key || "F8")) {
       concurrentify(
         () => {
-          useKey(cs2.attack1);
+          useKey(cs2.attack2, state.pressDuration);
         },
         () => {
           useKey(cs2.jump);
@@ -303,16 +333,84 @@ const jumpThrow = (stroke, input, key) => {
 /**
  * @type {import("./types").App.ForwardJumpThrowHandler}
  */
-const forwardjumpThrow = (stroke, input, key) => {
+const forwardJumpThrow = (stroke, input, key) => {
   return () => {
     if (stroke?.type !== "keyboard") return;
     if (input === KeyUpName(key || "F9")) {
       concurrentify(
         () => {
-          useKey(cs2.forward);
+          useKey(cs2.forward, state.pressDuration, "clickOrPress");
         },
         () => {
-          useKey(cs2.attack1);
+          useKey(cs2.attack1, state.pressDuration);
+        },
+        () => {
+          useKey(cs2.jump);
+        }
+      );
+    }
+  };
+};
+
+/**
+ * @type {import("./types").App.JumpThrowHandler}
+ */
+const jumpDoubleThrow = (stroke, input, key) => {
+  return () => {
+    if (stroke?.type !== "keyboard") return;
+    if (input === KeyUpName(key || "F10")) {
+      concurrentify(
+        () => {
+          useKey(cs2.attack1, state.pressDuration);
+        },
+        () => {
+          useKey(cs2.attack2, state.pressDuration);
+        },
+        () => {
+          useKey(cs2.jump);
+        }
+      );
+    }
+  };
+};
+
+/**
+ * @type {import("./types").App.JumpThrowHandler}
+ */
+const forwardJumpDoubleThrow = (stroke, input, key) => {
+  return () => {
+    if (stroke?.type !== "keyboard") return;
+    if (input === KeyUpName(key || "F11")) {
+      concurrentify(
+        () => {
+          useKey(cs2.forward, state.pressDuration, "clickOrPress");
+        },
+        () => {
+          useKey(cs2.attack1, state.pressDuration);
+        },
+        () => {
+          useKey(cs2.attack2, state.pressDuration);
+        },
+        () => {
+          useKey(cs2.jump);
+        }
+      );
+    }
+  };
+};
+
+/**
+ * @type {import("./types").App.JumpThrowHandler}
+ */
+const rightJumpThrow = (stroke, input, key) => {
+  return async () => {
+    if (stroke?.type !== "keyboard") return;
+    if (input === KeyUpName(key || "F12")) {
+      useKey(cs2.right, 400, "clickOrPress");
+      await wait(100);
+      concurrentify(
+        () => {
+          useKey(cs2.attack1, state.pressDuration);
         },
         () => {
           useKey(cs2.jump);

@@ -1006,5 +1006,243 @@
         "state": 3
       }
     ]
+  },
+  "NUMLOCK": {
+    "down": [
+      {
+        "code": 69,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 69,
+        "state": 1
+      }
+    ]
+  },
+  "KP_0": {
+    "down": [
+      {
+        "code": 82,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 82,
+        "state": 1
+      }
+    ]
+  },
+  "KP_1": {
+    "down": [
+      {
+        "code": 79,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 79,
+        "state": 1
+      }
+    ]
+  },
+  "KP_2": {
+    "down": [
+      {
+        "code": 80,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 80,
+        "state": 1
+      }
+    ]
+  },
+  "KP_3": {
+    "down": [
+      {
+        "code": 81,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 81,
+        "state": 1
+      }
+    ]
+  },
+  "KP_4": {
+    "down": [
+      {
+        "code": 75,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 75,
+        "state": 1
+      }
+    ]
+  },
+  "KP_5": {
+    "down": [
+      {
+        "code": 76,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 76,
+        "state": 1
+      }
+    ]
+  },
+  "KP_6": {
+    "down": [
+      {
+        "code": 77,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 77,
+        "state": 1
+      }
+    ]
+  },
+  "KP_7": {
+    "down": [
+      {
+        "code": 71,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 71,
+        "state": 1
+      }
+    ]
+  },
+  "KP_8": {
+    "down": [
+      {
+        "code": 72,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 72,
+        "state": 1
+      }
+    ]
+  },
+  "KP_9": {
+    "down": [
+      {
+        "code": 73,
+        "state": 0
+      }
+    ],
+    "up": [
+      {
+        "code": 73,
+        "state": 1
+      }
+    ]
+  },
+  "HOME": {
+    "down": [
+      {
+        "code": 71,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 71,
+        "state": 3
+      }
+    ]
+  },
+  "END": {
+    "down": [
+      {
+        "code": 79,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 79,
+        "state": 3
+      }
+    ]
+  },
+  "PAGE_UP": {
+    "down": [
+      {
+        "code": 73,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 73,
+        "state": 3
+      }
+    ]
+  },
+  "PAGE_DOWN": {
+    "down": [
+      {
+        "code": 81,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 81,
+        "state": 3
+      }
+    ]
+  },
+  "DELETE": {
+    "down": [
+      {
+        "code": 83,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 83,
+        "state": 3
+      }
+    ]
+  },
+  "INSERT": {
+    "down": [
+      {
+        "code": 82,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 82,
+        "state": 3
+      }
+    ]
   }
 }

@@ -1,15 +1,15 @@
-# Device Listener
+# Device Interception
 
-<font color="red">Warning! You might got banned by VAC for this!</font>
 A javascript to handle device orientation and motion events.
 
-The example code at `index.js` is to realize the functions of cfgs in _Counter-Strike 2_ of stop-automatic and jump-throw.
+## Disclaimer
+<font color="red">Warn! This project is for learning and communication purposes only, and if it is used in the game, you may be banned by VAC! We are not responsible if you are banned for this</font>
 
-## Usage
+## Example Usage
 
-In example codes below, `jiting` and `jumpThrow` are applied, and `J` is set to toggle whether or not to enable the stop-automatic hack. `F8`
+In example codes below, stop-automatic and some throw-actions in _Counter-Strike 2_ are applied, and `J` is set to toggle whether or not to enable the automatic-emergency-stop hack. `F8`
 is set to trigger the jump-throw action.
-(But the effect of automatic emergency stop is not good due to the duration of code execution.)
+(The effect of automatic-emergency-stop while repeeking is not good， it is recommended to disable it by pressing J)
 
 ```javascript
 async function listen() {
@@ -21,12 +21,17 @@ async function listen() {
     if (!state.listening || !device || !stroke || (stroke?.type === "keyboard" && stroke.code === SCANCODE_ESC)) break;
 
     device.send(stroke);
+    recordKeyState(stroke);
     //...
     concurrentify(
-      // Add your handler below  往下添加附作用事件
-      jiting(stroke, input, "J"),
-      jumpThrow(stroke, input, "F8"),
-      forwardjumpThrow(stroke, input, "F9")
+      // Add your side-effect handler below  往下添加附作用事件
+      jiting(stroke, input, "J"), // automatic-emergency-stop  jiting(stroke, input, "J", "K"), set the fourth parameter to switch the duration key.
+      jumpThrow(stroke, input, "F7"), // jump + attack1
+      jumpThrow2(stroke, input, "F8"), // jump + attack2
+      forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
+      jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
+      forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
+      rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
     );
   }
 
@@ -42,6 +47,6 @@ If you encounter the following error:
 - script is running, but hack is not working, maybe the device used is not the one actually used in the game.
   - You can check the device by `console.log(device)` in the handler to know which device in devices is used.
 - script is running as well as hack, but the output action is not as expected, maybe the key-binding at your machine is different from the example codes.
-  - You can run the `prepare.js` to recollect the key-binding to override the `key_codes` and `mouse_codes`.
+  - You can run the `check.js` to check the key-binding, and update the `key_codes` and `mouse_codes` yourself.
 - script is terminated, maybe it is killed by the anti-hack system of the game.
   - For this case, you'd better not to run this script in the game. Because it may cause you to be banned by the game.
