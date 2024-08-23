@@ -1,12 +1,14 @@
 {
-  "name": "device-interception",
+  "name": "device-interception-example",
   "version": "1.0.0",
-  "description": "A simple Node.js application to capture keyboard and mouse strokes.",
+  "description": "An example Node.js application to capture keyboard and mouse strokes.",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "run:node": "set NODE_ENV=production && bun index.js",
-    "run:bun": "set NODE_ENV=production && bun index.js",
+    "start:node": "set NODE_ENV=production && bun index.js",
+    "start:bun": "set NODE_ENV=production && bun index.js",
+    "install:driver": "npx node-interception /install",
+    "uninstall:driver": "npx node-interception /uninstall",
     "check": "node check.js"
   },
   "dependencies": {
