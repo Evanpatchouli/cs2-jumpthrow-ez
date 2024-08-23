@@ -85,3 +85,4 @@ If you encounter the following error:
 [Oblitum]: https://github.com/oblitum
 [node-interception]: https://github.com/Rami-Sabbagh/node-interception
 [Rami Sabbagh]: https://github.com/Rami-Sabbagh
+[Evanpatchouli]: https://github.com/Evanpatchouli
