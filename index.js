@@ -30,8 +30,8 @@ const { Interception, FilterKeyState, FilterMouseState } = ni;
 const interception = new Interception();
 
 // Enable the capturing of all strokes.
-interception.setFilter("keyboard", FilterKeyState.ALL);
-interception.setFilter("mouse", FilterMouseState.ALL);
+interception.setFilter("keyboard", FilterKeyState.ALL); // 监听键盘输入
+// interception.setFilter("mouse", FilterMouseState.ALL); // 监听鼠标输入
 
 const devices = {
   mices: interception.getMice(),
@@ -45,6 +45,12 @@ const SCANCODE_ESC = null; // ESC: 0x01
 async function listen() {
   logger.info("Press any key or move the mouse to generate strokes.");
   logger.info(`Press ${chalk.blueBright("ESC")} to exit and restore back control.`);
+  logger.info('【F7】跳投');
+  logger.info('【F8】右键跳投');
+  logger.info('【F9】前跳投');
+  logger.info('【F10】双键跳投');
+  logger.info('【F11】前双键跳投');
+  logger.info('【F12】Mirage VIP烟');
 
   state.SET_LISTENING(true);
   state.SET_JITING(true);
@@ -93,6 +99,12 @@ const getStrokeKey = (stroke) => {
 
 const KeyDownName = (key) => `${key}_down`;
 const KeyUpName = (key) => `${key}_up`;
+const KeyBaseName = (key) => {
+  if (key) {
+    return key.replace(/_(down|up)$/, "")
+  }
+  return null;
+}
 
 /**
  * @type {import("./types").App.ClickKey}
@@ -206,11 +218,12 @@ const downKey = async (device, key) => {
       information: 0,
     });
   });
+  await sequentialify(...funcs1);
   // 持续发送按下指令，直到 state.activeKeys 中没有相应 key
-  while (state.isKeyActive(key)) {
-    await sequentialify(...funcs1);
-    await wait(10); // 添加一个小的延迟，防止过度占用 CPU
-  }
+  // while (state.isKeyActive(key)) {
+  //   await sequentialify(...funcs1);
+  //   await wait(10); // 添加一个小的延迟，防止过度占用 CPU
+  // }
 };
 
 const upKey = async (device, key) => {
@@ -251,7 +264,15 @@ const recordKeyState = (stroke) => {
   }
 };
 
-/** Not work well when repeeking, so you should disable it when you repeek.
+const clickReverseKey = async (key, reverseKey) => {
+  await useKey(reverseKey, null, 'down');
+  await wait(state.JTDuration());
+  if (!state.isKeyActive(reverseKey) && !state.isKeyActive(key)) {
+    await useKey(reverseKey, null, 'up');
+  }
+}
+
+/** Single Key Stop Emergency
  * @type {import("./types").App.JitingHandler}
  */
 const jiting = (stroke, input, toggleKey, switchDurationKey) => {
@@ -269,21 +290,28 @@ const jiting = (stroke, input, toggleKey, switchDurationKey) => {
       }
     }
     if (state.useJiting === false) return;
-    let execed = true;
+    let execed = false;
     // await wait(10);
     const dekeyMap = {
-      [KeyUpName(cs2.forward)]: cs2.back,
-      [KeyUpName(cs2.left)]: cs2.right,
-      [KeyUpName(cs2.back)]: cs2.forward,
-      [KeyUpName(cs2.right)]: cs2.left,
+      [cs2.forward]: cs2.back,
+      [cs2.left]: cs2.right,
+      [cs2.back]: cs2.forward,
+      [cs2.right]: cs2.left,
     };
-
-    const reverseKey = dekeyMap[input];
-    if (reverseKey && !state.isKeyActive(reverseKey)) {
-      // press about 80ms is necessary, beacuse the game will ignore the key if it is too short  按压约state.JTDuration 是必要的，否则键程太短没有效果
-      await useKey(reverseKey, state.JTDuration());
-    } else {
-      execed = false;
+    const baseKey = KeyBaseName(input);
+    const reverseKey = dekeyMap[baseKey];
+    if (input?.includes("up")) {
+      if (reverseKey && !state.isKeyActive(reverseKey) && !state.isKeyActive(input)) {
+        // press about 80ms is necessary, beacuse the game will ignore the key if it is too short  按压约state.JTDuration 是必要的，否则键程太短没有效果
+        await clickReverseKey(baseKey, reverseKey);
+        execed = true;
+      }
+    }
+    if (input?.includes("down")) {
+      if (reverseKey && !state.isKeyActive(reverseKey)) { // 如果反向键没有被手动按下，有可能处于被程序自动按下的期间，理应松开不影响移动
+        await useKey(reverseKey, null, 'up');
+        execed = true;
+      }
     }
 
     if (execed) {

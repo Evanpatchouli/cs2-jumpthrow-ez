@@ -1,6 +1,6 @@
 {
   "name": "device-interception-example",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An example Node.js application to capture keyboard and mouse strokes.",
   "main": "index.js",
   "type": "module",

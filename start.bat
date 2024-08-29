@@ -1,0 +1,1 @@
+set NODE_ENV=production && bun index.js
