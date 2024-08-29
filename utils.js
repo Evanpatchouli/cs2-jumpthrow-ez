@@ -44,3 +44,13 @@ export const getCurrentTimeString = () => {
 
   return `${year}-${month}-${date} ${hour}:${minute}:${second}.${millisecond}`;
 };
+
+/**
+ * 计算两个 performance.now() 之间以毫秒为单位的时间差
+ * @type {import("./types").App.getMSDistance}
+ * @returns {number} 时间差（毫秒）
+ */
+export const getMSDistance = (start, end, toFix) => {
+  const distance = (end - start).toFixed(toFix ?? 3);
+  return distance;
+}

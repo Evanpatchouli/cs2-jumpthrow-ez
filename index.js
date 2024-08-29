@@ -7,7 +7,7 @@ import cs2 from "./cs2-keys.json" assert { type: "json" };
 import ni from "node-interception";
 import state from "./state.js";
 import logger from "./logger.js";
-import { concurrentify, getCurrentTimeString, sequentialify, wait } from "./utils.js";
+import { concurrentify, getCurrentTimeString, getMSDistance, sequentialify, wait } from "./utils.js";
 
 const keyKeyNames = new Set(Object.keys(keys));
 const mouseKeyNames = new Set(Object.keys(mices));
@@ -248,7 +248,7 @@ const recordKeyState = (stroke) => {
       return key && key.down.some((down) => down.code === stroke.code && down.state === stroke.state);
     });
     if (pressedKey) {
-      state.pushActiveKeys(pressedKey);
+      state.setActiveKey(pressedKey);
     } else {
       const unpressedKey = keyKeyNamesArray.find((name) => {
         const key = keys[name];
@@ -256,7 +256,7 @@ const recordKeyState = (stroke) => {
       });
 
       if (unpressedKey) {
-        state.removeActiveKeys(unpressedKey);
+        state.removeActiveKey(unpressedKey);
       }
     }
   } else if (stroke.type === "mouse") {
@@ -264,9 +264,16 @@ const recordKeyState = (stroke) => {
   }
 };
 
+/**
+ * @feature 根据按下的时间戳差决定 Jiting 的键程
+ */
 const clickReverseKey = async (key, reverseKey) => {
   await useKey(reverseKey, null, 'down');
-  await wait(state.JTDuration());
+  const keyState = state.getKeyState(key);
+  const now = performance.now();
+  const duration = getMSDistance(keyState?.firstActive, performance.now());
+  // logger.info(chalk.yellow(`Duration: ${duration}`));
+  await wait(duration || state.JTDuration());
   if (!state.isKeyActive(reverseKey) && !state.isKeyActive(key)) {
     await useKey(reverseKey, null, 'up');
   }
