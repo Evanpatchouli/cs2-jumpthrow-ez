@@ -22,6 +22,7 @@ function main() {
   logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
 
   core.listen('keyboard', {
+    before: () => { },
     after: async (stroke, input, baseKey, device) => {
       concurrentify(
         // Add your side-effect handler below  往下添加附作用事件

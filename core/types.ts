@@ -1,5 +1,5 @@
 import { Device, Stroke } from "node-interception";
-import keys from "./key_codes.json" assert { type: "json" };
+import Keys from "./key_codes.json" assert { type: "json" };
 import mices from "./mouse_codes.json" assert { type: "json" };
 
 export declare namespace Core {
@@ -27,6 +27,11 @@ export declare namespace Core {
     someKeysActive(keys: string[]): boolean;
   }
 
+  export function subscribe(
+    keys: (keyof typeof Keys)[],
+    handler: () => any
+  ): void;
+
   export function listen(
     listened: 'keyboard' | 'mouse' | 'all',
     handler: {
@@ -40,21 +45,21 @@ export declare namespace Core {
   function StrokeHandler(
     stroke: Stroke,
     input: Input,
-    key: keyof typeof keys,
+    key: keyof typeof Keys,
     device: Device
   ): Promise<void>;
 
   interface ClickKey {
-    (device: Device, key: keyof typeof keys): Promise<void>;
+    (device: Device, key: keyof typeof Keys): Promise<void>;
   }
   interface PressKey {
-    (device: Device, key: keyof typeof keys, duration: number): Promise<void>;
+    (device: Device, key: keyof typeof Keys, duration: number): Promise<void>;
   }
   interface UpKey {
-    (device: Device, key: keyof typeof keys): Promise<void>;
+    (device: Device, key: keyof typeof Keys): Promise<void>;
   }
   interface DownKey {
-    (device: Device, key: keyof typeof keys): Promise<void>;
+    (device: Device, key: keyof typeof Keys): Promise<void>;
   }
   interface MiceClick {
     (device: Device, key: keyof typeof mices): Promise<void>;
@@ -64,7 +69,7 @@ export declare namespace Core {
   }
   interface UseKey {
     (
-      key: keyof typeof keys | keyof typeof mices,
+      key: keyof typeof Keys | keyof typeof mices,
       options?: {
         pressDuration?: number | null,
         mode?: "down" | "up" | "clickOrPress"

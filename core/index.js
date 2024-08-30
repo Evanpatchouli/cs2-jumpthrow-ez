@@ -265,6 +265,34 @@ const recordKeyState = (stroke) => {
   }
 };
 
+/** @type {Map<String, Function>()} */
+const handlers = new Map();
+
+const dispatch = (keys) => {
+  const key = JSON.stringify([...keys].sort());
+  if (handlers.has(key)) {
+    handlers.get(key)();
+  }
+}
+
+const dispatchAll = () => {
+  handlers.forEach((handler, keyString) => {
+    const keys = JSON.parse(keyString);
+    state.areKeysActive(keys) && handler();
+  });
+}
+
+/**
+ * @type {import("./types").Core['subscribe']}
+ */
+export const subscribe = (keys, handler) => {
+  // 对 keys 数组进行排序
+  const sortedKeys = [...keys].sort();
+  // 将排序后的 keys 数组转换为字符串，用作 Map 的键
+  const keyString = JSON.stringify(sortedKeys);
+  handlers.set(keyString, handler);
+}
+
 /**
  * @type {import("./types").Core['listen']}
  */
@@ -302,11 +330,10 @@ export const listen = async (listened, handler) => {
       state.SET_LISTENING(false);
       break;
     }
-
     handler?.before && await handler.before(stroke, input, baseKey, device);
     device.send(stroke);
     recordKeyState(stroke);
-
+    dispatchAll();
     handler?.after?.(stroke, input, KeyBaseName(input), device);
   }
   destroy();
