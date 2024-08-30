@@ -23,6 +23,8 @@ export declare namespace Core {
     isKeyActive(key: string): boolean;
     /** 询问某些键是否处于激活状态，可用于判断组合键 */
     areKeysActive(keys: string[]): boolean;
+    noneKeysActive(keys: string[]): boolean;
+    someKeysActive(keys: string[]): boolean;
   }
 
   export function listen(

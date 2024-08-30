@@ -92,7 +92,7 @@ const jiting = (stroke, input, toggleKey, switchDurationKey) => {
     const baseKey = KeyBaseName(input);
     const reverseKey = dekeyMap[baseKey];
     if (input?.includes("up")) {
-      if (reverseKey && !core.isKeyActive(reverseKey) && !core.isKeyActive(input)) {
+      if (reverseKey && core.noneKeysActive([cs2.forward, cs2.back, cs2.left, cs2.right])) {  // 四键或双键判定 core.noneKeysActive[baseKey, reverseKey]  两个键都没有被按下
         // press about 80ms is necessary, beacuse the game will ignore the key if it is too short  按压约state.JTDuration 是必要的，否则键程太短没有效果
         await clickReverseKey(baseKey, reverseKey);
         execed = true;

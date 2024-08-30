@@ -28,7 +28,13 @@ const state = {
   },
   areKeysActive(keys) {
     return keys.every(key => state.isKeyActive(key));
-  }
+  },
+  noneKeysActive(keys) {
+    return keys.every(key => !state.isKeyActive(key));
+  },
+  someKeysActive(keys) {
+    return keys.some(key => state.isKeyActive(key));
+  },
 };
 
 export default state;

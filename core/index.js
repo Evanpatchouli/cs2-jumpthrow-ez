@@ -11,14 +11,18 @@ const {
   listening,
   isKeyActive,
   areKeysActive,
-  getKeyState
+  getKeyState,
+  noneKeysActive,
+  someKeysActive
 } = state;
 
 export {
   listening,
   isKeyActive,
   areKeysActive,
-  getKeyState
+  getKeyState,
+  noneKeysActive,
+  someKeysActive
 }
 
 os.setPriority(os.constants.priority.PRIORITY_HIGH);
