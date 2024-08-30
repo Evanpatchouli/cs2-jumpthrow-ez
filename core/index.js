@@ -265,7 +265,6 @@ const recordKeyState = (stroke) => {
  * @type {import("./types").Core['listen']}
  */
 export const listen = async (listened, handler) => {
-  const QUIT_KEYS = ["ESC", "LEFT_CTRL", "LEFT_ALT"];
   switch (listened) {
     case 'keyboard':
       listenKeyboard();
@@ -298,12 +297,6 @@ export const listen = async (listened, handler) => {
     if (!state.listening || !device || !stroke) {
       state.SET_LISTENING(false);
       break;
-    } else if (stroke?.type === "keyboard") {
-      if (state.areKeysActive(QUIT_KEYS.filter((key) => key === baseKey))) {
-        logger.info(chalk.green("Quitting..."));
-        state.SET_LISTENING(false);
-        break;
-      }
     }
 
     handler?.before && await handler.before(stroke, input, baseKey, device);
