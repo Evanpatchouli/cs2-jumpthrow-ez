@@ -3,18 +3,15 @@ import chalk from "chalk";
 import * as os from "os";
 os.setPriority(os.constants.priority.PRIORITY_HIGH);
 import ni from "node-interception";
-import state from "./state.js";
-import logger from "./logger.js";
-import { concurrentify, sequentialify, wait } from "./utils.js";
+import state from "./core/state.js";
+import logger from "./core/logger.js";
+import { concurrentify } from "./core/utils.js";
 
 const { Interception, FilterKeyState, FilterMouseState } = ni;
 const interception = new Interception();
 
 // Enable the capturing of all strokes.
 interception.setFilter("keyboard", FilterKeyState.ALL);
-// interception.setFilter("mouse", FilterMouseState.ALL);
-
-// console.log(devices);
 
 const SCANCODE_ESC = 0x01;
 

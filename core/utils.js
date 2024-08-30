@@ -17,12 +17,19 @@ export const sequentialify = (...funcs) => {
 };
 
 /**
- * wait
- * @param {number} ms
- * @returns
+ * - 等待时间 | Wait time
+ * @param time 等待时间 | The waiting time
+ * @type {import("./types").Core['Utils']['wait']}
  */
 export const wait = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+export const waitSync = (ms) => {
+  const end = Date.now() + ms;
+  while (Date.now() < end) {
+    // 空循环，阻塞主线程
+  }
 };
 
 /**
@@ -46,11 +53,14 @@ export const getCurrentTimeString = () => {
 };
 
 /**
- * 计算两个 performance.now() 之间以毫秒为单位的时间差
- * @type {import("./types").App.getMSDistance}
- * @returns {number} 时间差（毫秒）
+ * - 基于 performance.now() 的时间戳差 | The timestamp difference based on performance.now()
+ * @param start 开始时间 | The start time
+ * @param end 结束时间 | The end time
+ * @param toFix 保留小数位数 | The number of decimal places to keep
+ * @returns 时间戳差 (ms) | Timestamp difference (ms)
+ * @type {import("./types").Core['Utils']['getMSDistance']}
  */
 export const getMSDistance = (start, end, toFix) => {
   const distance = (end - start).toFixed(toFix ?? 3);
   return distance;
-}
+};

@@ -29,36 +29,38 @@ npm run install:driver
 ## 示例用法
 
 在下面的示例代码中，应用了 CS2 中的急停和一些投掷操作，`J` 被设置为切换是否启用急停辅助。`F7` 被设置为触发跳投动作。
-（在 repeek 期间急停效果不佳，建议按 J 禁用）
 
 你可以在 `npm run start:node` 或 `npm run start:bun` 在 **node** 或 **bun** 环境下执行 `index.js`。
 
 ```javascript
-async function listen() {
-  //...
-  while (state.listening) {
-    const device = await interception.wait();
-    const stroke = device?.receive();
+function main() {
+  logger.info("Press any key or move the mouse to generate strokes.");
+  logger.info(`Press ${chalk.blueBright("ESC")} to exit and restore back control.`);
+  logger.info('【F7】跳投');
+  logger.info('【F8】右键跳投');
+  logger.info('【F9】前跳投');
+  logger.info('【F10】双键跳投');
+  logger.info('【F11】前双键跳投');
+  logger.info('【F12】Mirage VIP 慢烟');
 
-    if (!state.listening || !device || !stroke || (stroke?.type === "keyboard" && stroke.code === SCANCODE_ESC)) break;
+  state.SET_JITING(true);
+  state.SET_USE_JT_DURATION_CALC(true);
+  logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
 
-    device.send(stroke);
-    recordKeyState(stroke);
-    //...
-    concurrentify(
-      // Add your side-effect handler below  往下添加附作用事件
-      jiting(stroke, input, "J"), // automatic-emergency-stop  jiting(stroke, input, "J", "K"), set the fourth parameter to switch the duration key.
-      jumpThrow(stroke, input, "F7"), // jump + attack1
-      jumpThrow2(stroke, input, "F8"), // jump + attack2
-      forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
-      jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
-      forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
-      rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
-    );
-  }
-
-  interception.destroy();
-  logger.warn(chalk.yellow("Disconnected"));
+  core.listen('keyboard', {
+    after: async (stroke, input, baseKey, device) => {
+      concurrentify(
+        // Add your side-effect handler below  往下添加附作用事件
+        jiting(stroke, input, "J"), // automatic-emergency-stop  jiting(stroke, input, "J", "K"), set the fourth parameter to switch the duration key.
+        jumpThrow(stroke, input, "F7"), // jump + attack1
+        jumpThrow2(stroke, input, "F8"), // jump + attack2
+        forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
+        jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
+        forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
+        rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
+      );
+    }
+  }).catch((error) => logger.error(error));
 }
 ```
 
@@ -69,9 +71,9 @@ async function listen() {
 - 脚本正在运行，但辅助没有生效，可能使用的设备不是实际游戏中使用的设备。
   - 你可以在处理程序中使用 `console.log(device)` 来查看是否是 devices 中使用的设备。
 - 脚本正在运行，辅助也生效了，但输出的动作不如预期，可能你的机器上的按键绑定与示例代码不同。
-  - 你可以运行 `check.js` 来查看按键绑定，然后手动更新 `key_codes` 和 `mouse_codes`。
+  - 你可以运行 `check.js` 来查看按键绑定，然后手动更新 `core` 中的 `key_codes` 和 `mouse_codes`。
 - 脚本被终止，可能是被游戏的反作弊系统杀死了。
-  - 对于这种情况，最好不要在游戏中运行此脚本。因为这可能导致你被游戏封号。
+  - 对于这种情况，最好不要试图再在游戏中运行此程序。因为这可能导致你被游戏封号。
 
 ## Credits
 
