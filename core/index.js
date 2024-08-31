@@ -9,6 +9,7 @@ import { sequentialify, wait } from "./utils.js";
 
 const {
   listening,
+  SET_LISTENING: setListening,
   isKeyActive,
   areKeysActive,
   getKeyState,
@@ -18,6 +19,7 @@ const {
 
 export {
   listening,
+  setListening,
   isKeyActive,
   areKeysActive,
   getKeyState,
@@ -271,7 +273,7 @@ const handlers = new Map();
 const dispatch = (keys) => {
   const key = JSON.stringify([...keys].sort());
   if (handlers.has(key)) {
-    handlers.get(key)();
+    handlers.get(key)?.();
   }
 }
 
@@ -315,7 +317,7 @@ export const listen = async (listened, handler) => {
       );
   }
   state.SET_LISTENING(true);
-  while (state.listening) {
+  while (true) {
     const device = await interception.wait();
     const stroke = device?.receive();
 
@@ -326,16 +328,22 @@ export const listen = async (listened, handler) => {
       baseKey = KeyBaseName(input);
     }
 
-    if (!state.listening || !device || !stroke) {
-      state.SET_LISTENING(false);
+    if (!device || !stroke) {
       break;
     }
-    handler?.before && await handler.before(stroke, input, baseKey, device);
+
+    state.listening && handler?.before && await handler.before(stroke, input, baseKey, device);
     device.send(stroke);
     recordKeyState(stroke);
+
+    if (!state.listening) {
+      continue;
+    }
+
     dispatchAll();
     handler?.after?.(stroke, input, KeyBaseName(input), device);
   }
+  logger.info("Received stop signal, stop intercepting...");
   destroy();
   logger.warn(chalk.yellow("Disconnected"));
 }

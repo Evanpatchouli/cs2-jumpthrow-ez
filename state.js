@@ -1,5 +1,5 @@
-import config from "./cs2.config";
-import { getMSDistance } from "./core/utils";
+import config from "./configs/cs2.config.js";
+import { getMSDistance } from "./core/utils.js";
 
 const reversAxis = (config["a_-_f_acclerate"]) / (config["a_-_f_acclerate"] + 2 * config["f_acclerate"]);
 

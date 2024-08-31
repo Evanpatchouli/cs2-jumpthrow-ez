@@ -1,3 +1,5 @@
+import logger from "./logger.js";
+
 /**
  * @type {import("./types").Core.State}
  */
@@ -5,6 +7,11 @@ const state = {
   listening: false,
   SET_LISTENING(value) {
     state.listening = value;
+    queueMicrotask(() => {
+      if (!state.listening) {
+        logger.info("Received stop signal, stop intercepting...");
+      }
+    })
   },
   keyState: {},
   setActiveKey(key) {
