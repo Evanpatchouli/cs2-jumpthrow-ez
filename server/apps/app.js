@@ -10,6 +10,7 @@ console.log(`Monitor path: ${monitorPath}`, `Public path: ${PUBLIC}`);
 
 const app = express();
 
+app.use(monitorPath, express.static(PUBLIC));
 
 app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -23,8 +24,6 @@ app.all('*', function (req, res, next) {
   }
   next();
 });
-
-app.use(monitorPath, express.static(PUBLIC));
 app.use('/api', router);
 app.use(excatcher);
 app.use(exlogger);
