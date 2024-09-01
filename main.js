@@ -31,8 +31,8 @@ function main(options) {
   state.SET_USE_JT_DURATION_CALC(true);
   logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
 
-  core.onListen(options.onListen);
-  core.offListen(options.offListen);
+  core.onListen(options?.onListen);
+  core.offListen(options?.offListen);
 
   core.listen("keyboard", {
     before: () => { },

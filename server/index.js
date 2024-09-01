@@ -1,4 +1,4 @@
-import cfg from '../app.config.js';
+import cfg from './config.js';
 import chalk from 'chalk';
 import server from './server.js';
 import init from './utils/init.js';

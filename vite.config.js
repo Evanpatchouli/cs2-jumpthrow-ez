@@ -14,17 +14,16 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
-        target: appConfig.serverPath(),
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, '')
-      },
-      '/socketio': {
-        target: appConfig.socketioPath(),
-        changeOrigin: true,
-        ws: true,
-        rewrite: (path) => path.replace(/^\/socketio/, '')
-      }
+      // '/api': {
+      //   target: appConfig.serverPath(),
+      //   changeOrigin: true,
+      // },
+      // '/socketio': {
+      //   target: appConfig.socketioPath(),
+      //   changeOrigin: true,
+      //   ws: true,
+      //   rewrite: (path) => path.replace(/^\/socketio/, '')
+      // }
     }
   }
 })

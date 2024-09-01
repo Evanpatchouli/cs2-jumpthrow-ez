@@ -1,6 +1,7 @@
 // request.js
 
 import { Toast } from "evp-design-ui";
+import appConfig from "../../../app.config";
 
 const DEFAULT_TIMEOUT = 5000; // 默认超时时间为 5 秒
 
@@ -46,6 +47,10 @@ const handleError = (error) => {
 const fetchWithTimeout = (url, options, timeout = DEFAULT_TIMEOUT) => {
   const controller = new AbortController();
   const { signal } = controller;
+
+  if ((url || "").startsWith("/api")) {
+    url = appConfig.apiPath().concat(url.replace(/\/api/, ''));
+  }
 
   let timeoutId;
 

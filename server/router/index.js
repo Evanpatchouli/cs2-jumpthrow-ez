@@ -14,12 +14,12 @@ router.get('/status', (req, res) => {
 
 router.post('/start', (req, res) => {
   core.setListening(true);
-  res.send(Resp.ok("监听启用."));
+  res.send(Resp.ok("监听启用"));
 })
 
 router.post('/stop', (req, res) => {
   core.setListening(false);
-  res.send(Resp.ok("监听暂停."));
+  res.send(Resp.ok("监听暂停"));
 })
 
 export default router;
