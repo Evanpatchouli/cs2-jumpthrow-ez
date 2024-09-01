@@ -25,6 +25,8 @@ export declare namespace Core {
     areKeysActive(keys: string[]): boolean;
     noneKeysActive(keys: string[]): boolean;
     someKeysActive(keys: string[]): boolean;
+    onListen: () => void;
+    offListen: () => void;
   }
 
   export function subscribe(

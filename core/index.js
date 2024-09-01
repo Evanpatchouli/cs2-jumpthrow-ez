@@ -9,22 +9,48 @@ import { sequentialify, wait } from "./utils.js";
 
 const {
   listening,
-  SET_LISTENING: setListening,
   isKeyActive,
   areKeysActive,
   getKeyState,
   noneKeysActive,
-  someKeysActive
+  someKeysActive,
 } = state;
 
+const onListen = (callback) => {
+  state.onListen = callback;
+}
+
+const offListen = (callback) => {
+  state.offListen = callback;
+}
+
+/**
+ * 
+ * @param {boolean} value 
+ */
+const setListening = (value) => {
+  state.SET_LISTENING(value);
+  if (value) {
+    state.onListen?.();
+  } else {
+    state.offListen?.();
+  }
+}
+
+const isListening = () => {
+  return state.listening;
+}
+
 export {
-  listening,
+  isListening,
   setListening,
   isKeyActive,
   areKeysActive,
   getKeyState,
   noneKeysActive,
-  someKeysActive
+  someKeysActive,
+  onListen,
+  offListen
 }
 
 os.setPriority(os.constants.priority.PRIORITY_HIGH);
@@ -316,7 +342,7 @@ export const listen = async (listened, handler) => {
           The ${chalk.yellow("first")} argument of listen() should be ${chalk.yellowBright("'keyboard', 'mouse' or 'all'")}.`
       );
   }
-  state.SET_LISTENING(true);
+  setListening(true);
   while (true) {
     const device = await interception.wait();
     const stroke = device?.receive();

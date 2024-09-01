@@ -11,7 +11,8 @@ declare namespace API {
   }
 
   type POSTS = {
-    "/api/stop": Resp<undefined>
+    "/api/stop": Resp<undefined>,
+    "/api/start": Resp<undefined>
   }
 
   interface GET<U extends keyof GETS = keyof GETS> {

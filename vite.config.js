@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import appConfig from './app.config.js'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,10 +15,16 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:30016',
+        target: appConfig.serverPath(),
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },
+      '/socketio': {
+        target: appConfig.socketioPath(),
+        changeOrigin: true,
+        ws: true,
+        rewrite: (path) => path.replace(/^\/socketio/, '')
+      }
     }
   }
 })

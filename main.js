@@ -13,7 +13,11 @@ import {
   rightJumpThrow,
 } from "./handlers/index.js";
 
-function main() {
+/**
+ * 
+ * @param {{onListen: VoidFunction; offListen: VoidFunction}} options 
+ */
+function main(options) {
   logger.info("Press any key or move the mouse to generate strokes.");
   logger.info(`Press ${chalk.blueBright("ESC")} to exit and restore back control.`);
   logger.info("【F7】跳投");
@@ -26,6 +30,9 @@ function main() {
   state.SET_JITING(true);
   state.SET_USE_JT_DURATION_CALC(true);
   logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
+
+  core.onListen(options.onListen);
+  core.offListen(options.offListen);
 
   core.listen("keyboard", {
     before: () => { },

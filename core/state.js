@@ -10,6 +10,8 @@ const state = {
     queueMicrotask(() => {
       if (!state.listening) {
         logger.info("Received stop signal, stop intercepting...");
+      } else {
+        logger.info("Resuming intercepting...");
       }
     })
   },
@@ -42,6 +44,8 @@ const state = {
   someKeysActive(keys) {
     return keys.some(key => state.isKeyActive(key));
   },
+  onListen: () => { },
+  offListen: () => { },
 };
 
 export default state;
