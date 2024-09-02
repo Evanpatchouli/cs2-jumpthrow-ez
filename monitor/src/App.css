@@ -40,23 +40,3 @@
 .read-the-docs {
   color: #888;
 }
-
-.evp.evp-toasts-container {
-  box-sizing: border-box;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  z-index: 10000000;
-  /** 内部元素放到右下角 */
-  height: 100vh;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding-right: 1rem;
-  padding-bottom: 1.8rem;
-}
-
-.evp.evp-toast {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10000000;
-}

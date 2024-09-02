@@ -47,3 +47,11 @@ h1 {
     background-color: #f9f9f9;
   }
 }
+
+/** 吐司消息放到右下角来 **/
+.evp.evp-toasts-container {
+  bottom: 0 !important;
+  top: unset !important;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+}

@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import evpLogo from 'evp-design-ui/evp-icon/evp.svg'
 import request from './api/request.js'
-import { Button, Dom, Tag, Toast, ToolTip } from 'evp-design-ui'
+import { Button, Dom, ToolTip } from 'evp-design-ui'
 import './App.css'
 import useCache from './cache/index.js'
 import { socket } from './socket/index.js'
+import toast from './utils/toast.js'
+import { Toaster } from 'react-hot-toast'
 
 
 
@@ -14,22 +17,22 @@ function App() {
   const [status, statusSet] = useState(false);
   const onConnect = () => {
     cache.setSocketConnected(true);
-    Toast.success('SocketIO 已连接');
+    toast.success('SocketIO 已连接');
     socket.emit('status');
   }
   const onDisconnect = () => {
     cache.setSocketConnected(false);
-    Toast.success('SocketIO 已断开');
+    toast.info('SocketIO 已断开');
   }
 
   useEffect(() => {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('message', (data) => {
-      Toast.success(JSON.stringify(data));
+      toast.info(`Server: ${JSON.stringify(data)}`);
     });
     socket.on('status', (status) => {
-      Toast.success(`拦截器状态: ${status ? '启用' : '休眠'}`);
+      toast[status ? 'success' : 'info'](`拦截器状态: ${status ? '启用' : '休眠'}`);
       statusSet(status);
     });
     socket.connect();
@@ -43,6 +46,9 @@ function App() {
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
+        <a href="https://evanpatchouli.github.io/evp-design-ui/" target="_blank">
+          <img src={evpLogo} className="logo" alt="Evp logo" />
+        </a>
       </div>
       <h1>Vite + React + Evp</h1>
       <div className="card">
@@ -52,24 +58,25 @@ function App() {
               request.GET('/api/status').then(res => {
                 const status = res.data;
                 statusSet(status);
-                Toast.info(`拦截器状态: ${status ? '启用' : '休眠'}`);
+                toast.info(`拦截器状态: ${status ? '启用' : '休眠'}`);
               });
             }} />
           </ToolTip>
           <Button $click={async () => {
             const res = await request.POST(status ? '/api/stop' : '/api/start');
-            (res.type === 'Ok' && res.msg) ? Toast.success(res.msg) : Toast.error(res.msg);
+            (res.type === 'Ok' && res.msg) ? toast.success(res.msg) : toast.error(res.msg);
           }} theme='dark' ripple>
             {status ? "停止" : "启用"}监听
           </Button>
         </Dom>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Edit <code>src/App.jsx</code> to customize the monitor
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Click on the Vite, React and Evp logos to learn more
       </p>
+      <Toaster />
     </>
   )
 }
