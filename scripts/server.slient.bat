@@ -1,3 +1,5 @@
 @echo off
-cd ..
-set NODE_ENV=production && start /b bun serve.js
+if "%1" == "h" goto begin
+mshta vbscript:createobject("wscript.shell").run("%~nx0 h",0)(window.close)&&exit
+:begin
+server.bat

@@ -66,6 +66,33 @@ function main() {
 }
 ```
 
+## Run with PM2
+
+You can use `pm2` to keep running the script in the background.
+
+I have provided a two pm2 configuration files at the pm2 directory. Before using it, you need to install `pm2` globally:
+
+```shell
+npm install -g pm2
+```
+
+And modify these files to fit your environment. Mainly, you need to update thehe premeters:
+
+- `cwd`: the root directory to execute the script
+- `interpreter`: the interpreter of the script, such as the absolute path of `bun.exe`
+- `out_file`: the path of the output file, could be absolute or relative (cwd)
+- `error_file`: the path of the error file, could be absolute or relative (cwd)
+- `env`: if you need to set some environment variables
+
+Then you can run the script with pm2 just like:
+
+```shell
+# my project path is at D:\Work\device-interception-example
+pm2 start ./pm2/serve.json
+```
+
+By this way, the server is running in the background, and i can use web monitor to manage it.
+
 ## Exception
 
 If you encounter the following error:

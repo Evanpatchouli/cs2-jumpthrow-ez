@@ -17,12 +17,12 @@ function App() {
   const [status, statusSet] = useState(false);
   const onConnect = () => {
     cache.setSocketConnected(true);
-    toast.success('SocketIO 已连接');
+    toast.success('服务已连接');
     socket.emit('status');
   }
   const onDisconnect = () => {
     cache.setSocketConnected(false);
-    toast.info('SocketIO 已断开');
+    toast.info('服务已断开');
   }
 
   useEffect(() => {

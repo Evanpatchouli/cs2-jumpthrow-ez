@@ -64,6 +64,33 @@ function main() {
 }
 ```
 
+## 使用 PM2 运行
+
+你可以使用 `pm2` 来在后台持续运行脚本。
+
+我在 pm2 目录中提供了两个 pm2 配置文件。在使用之前，你需要全局安装 `pm2`:
+
+```shell
+npm install -g pm2
+```
+
+然后修改这些文件以适应你的环境。主要是更新以下参数:
+
+- `cwd`: 执行脚本的根目录
+- `interpreter`: 脚本的解释器，例如 `bun.exe` 的绝对路径
+- `out_file`: 输出文件的路径，可以是绝对路径或相对路径 (cwd)
+- `error_file`: 错误文件的路径，可以是绝对路径或相对路径 (cwd)
+- `env`: 如果你需要设置一些环境变量
+
+然后你可以像这样使用 pm2 运行脚本:
+
+```shell
+# my project path is at D:\Work\device-interception-example
+pm2 start ./pm2/serve.json
+```
+
+通过这种方式，服务器在后台运行，我可以使用 web 控制台来管理它。
+
 ## 异常
 
 如果你遇到以下异常：
