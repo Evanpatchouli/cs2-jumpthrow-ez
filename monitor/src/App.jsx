@@ -63,8 +63,8 @@ function App() {
             }} />
           </ToolTip>
           <Button $click={async () => {
-            const res = await request.POST(status ? '/api/stop' : '/api/start');
-            (res.type === 'Ok' && res.msg) ? toast.success(res.msg) : toast.error(res.msg);
+            await request.POST(status ? '/api/stop' : '/api/start');
+            // (res.type === 'Ok' && res.msg) ? toast.success(res.msg) : toast.error(res.msg);
           }} theme='dark' ripple>
             {status ? "停止" : "启用"}监听
           </Button>
