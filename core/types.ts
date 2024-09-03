@@ -19,6 +19,10 @@ export declare namespace Core {
     getKeyState(key: string): State['keyState'][string];
     setActiveKey(key: string): void;
     removeActiveKey(key: string): void;
+    /**
+     * 先判断是否已经激活，否则不操作
+     */
+    clearActiveKey(key: string): void;
     /** 询问某键是否处于激活状态 */
     isKeyActive(key: string): boolean;
     /** 询问某些键是否处于激活状态，可用于判断组合键 */
@@ -68,6 +72,18 @@ export declare namespace Core {
   }
   interface MicePress {
     (device: Device, key: keyof typeof mices, duration: number): Promise<void>;
+  }
+  interface MiceMove {
+    (device: Device, delta: { x?: number, y?: number }): void;
+  }
+  interface MiceRoll {
+    (device: Device, rolling?: number): void;
+  }
+  interface MiceWheelDown {
+    (device: Device, rolling?: number): void;
+  }
+  interface MiceWheelUp {
+    (device: Device, rolling?: number): void;
   }
   interface UseKey {
     (

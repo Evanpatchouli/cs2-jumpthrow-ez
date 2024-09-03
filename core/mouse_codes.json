@@ -120,5 +120,16 @@
       "y": 0,
       "information": 0
     }
+  ],
+  "MOUSEMOVE": [
+    {
+      "type": "mouse",
+      "state": 0,
+      "flags": 0,
+      "rolling": 0,
+      "x": 0,
+      "y": 0,
+      "information": 0
+    }
   ]
 }

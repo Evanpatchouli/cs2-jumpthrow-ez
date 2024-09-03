@@ -33,7 +33,7 @@ export const clickReverseKey = async (key, reverseKey) => {
  * - 误差的存在，若实际输出的键程比实际最佳略长可能会造成一点反向位移。
  * - 宁可停的慢一点，让丝滑的急停，给自己一点瞄准容错时间，而不是瞬间成为定靶子
  * - 由于自动反向按键，**跳跃时**建议**暂时禁用**，否则跳不远
- * @type {import("./types.js").App.JitingHandler}
+ * @type {import("../types.js").App.JitingHandler}
  */
 export const jiting = (stroke, input, toggleKey, switchDurationKey) => {
   return async () => {
@@ -81,7 +81,7 @@ export const jiting = (stroke, input, toggleKey, switchDurationKey) => {
 };
 
 /**
- * @type {import("./types.js").App.JumpThrowHandler}
+ * @type {import("../types.js").App.JumpThrowHandler}
  */
 export const jumpThrow = (stroke, input, key) => {
   return () => {
@@ -100,7 +100,7 @@ export const jumpThrow = (stroke, input, key) => {
 };
 
 /**
- * @type {import("./types.js").App.JumpThrowHandler}
+ * @type {import("../types.js").App.JumpThrowHandler}
  */
 export const jumpThrow2 = (stroke, input, key) => {
   return () => {
@@ -119,7 +119,7 @@ export const jumpThrow2 = (stroke, input, key) => {
 };
 
 /**
- * @type {import("./types.js").App.ForwardJumpThrowHandler}
+ * @type {import("../types.js").App.ForwardJumpThrowHandler}
  */
 export const forwardJumpThrow = (stroke, input, key) => {
   return () => {
@@ -146,7 +146,7 @@ export const forwardJumpThrow = (stroke, input, key) => {
 };
 
 /**
- * @type {import("./types.js").App.JumpThrowHandler}
+ * @type {import("../types.js").App.JumpThrowHandler}
  */
 export const jumpDoubleThrow = (stroke, input, key) => {
   return () => {
@@ -172,7 +172,7 @@ export const jumpDoubleThrow = (stroke, input, key) => {
 };
 
 /**
- * @type {import("./types.js").App.JumpThrowHandler}
+ * @type {import("../types.js").App.JumpThrowHandler}
  */
 export const forwardJumpDoubleThrow = (stroke, input, key) => {
   return () => {
@@ -204,7 +204,7 @@ export const forwardJumpDoubleThrow = (stroke, input, key) => {
 };
 
 /**
- * @type {import("./types.js").App.JumpThrowHandler}
+ * @type {import("../types.js").App.JumpThrowHandler}
  */
 export const rightJumpThrow = (stroke, input, key) => {
   return async () => {
@@ -228,3 +228,4 @@ export const rightJumpThrow = (stroke, input, key) => {
     }
   };
 };
+

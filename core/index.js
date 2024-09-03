@@ -56,7 +56,8 @@ export {
 os.setPriority(os.constants.priority.PRIORITY_HIGH);
 
 export const keyKeyNames = new Set(Object.keys(keys));
-export const mouseKeyNames = new Set(Object.keys(mices));
+const clickMiceActions = ["MOUSE1", "MOUSE2", "MOUSE3", "MOUSE4", "MOUSE5"];
+export const mouseKeyNames = new Set(Object.keys(clickMiceActions));
 
 export const keyCodeToKeyNameMap = new Map();
 
@@ -99,11 +100,58 @@ export const keyboard = devices.keyboards[1];
 
 /**
  * 获取按下的键名
- * @param {import("node-interception").KeyboardStroke} stroke - 键盘或鼠标事件
+ * @param {import("node-interception").MouseStroke} stroke - 键盘或鼠标事件
  * @returns {string|undefined} - 键名
  */
 export const getStrokeKey = (stroke) => {
-  return keyCodeToKeyNameMap.get(`${stroke.code}-${stroke.state}`);
+  if ("keyboard" === stroke?.type) {
+    return keyCodeToKeyNameMap.get(`${stroke.code}-${stroke.state}`);
+  }
+  switch (stroke?.state) {
+    case 0: {
+      return "MOUSEMOVE";
+    }
+    case 1: { // MOUSE1_DOWN
+      return "MOUSE1_down";
+    }
+    case 2: { // MOUSE1_UP
+      return "MOUSE1_up";
+    }
+    case 4: { // MOUSE2_DOWN
+      return "MOUSE2_down";
+    }
+    case 8: { // MOUSE2_UP
+      return "MOUSE2_up";
+    }
+    case 16: { // MOUSE3_DOWN
+      return "MOUSE3_down";
+    }
+    case 32: { // MOUSE3_UP
+      return "MOUSE3_up";
+    }
+    case 64: { // MOUSE4_DOWN
+      return "MOUSE4_down";
+    }
+    case 128: { // MOUSE4_UP
+      return "MOUSE4_up";
+    }
+    case 256: { // MOUSE5_DOWN
+      return "MOUSE5_down";
+    }
+    case 512: { // MOUSE5_UP
+      return "MOUSE5_up";
+    }
+    case 1024: { // MWHEEL
+      if (stroke.rolling > 0) {
+        return "MWHEEL_UP";
+      }
+      return "MWHEEL_DOWN";
+    }
+    default: {
+      return null;
+    }
+  }
+
 };
 
 /** 将 KeyBase 转为 KeyDown */
@@ -124,7 +172,7 @@ export const KeyBaseName = (key) => {
  */
 export const clickKey = async (device, key) => {
   const funcs1 = keys[key].down.map((stroke) => () => {
-    device.send({
+    device?.send({
       type: "keyboard",
       code: stroke.code,
       state: stroke.state,
@@ -133,7 +181,7 @@ export const clickKey = async (device, key) => {
   });
   await sequentialify(...funcs1);
   const funcs2 = keys[key].up.map((stroke) => () => {
-    device.send({
+    device?.send({
       type: "keyboard",
       code: stroke.code,
       state: stroke.state,
@@ -148,7 +196,7 @@ export const clickKey = async (device, key) => {
  */
 export const pressKey = async (device, key, duration) => {
   const funcs1 = keys[key].down.map((stroke) => () => {
-    device.send({
+    device?.send({
       type: "keyboard",
       code: stroke.code,
       state: stroke.state,
@@ -158,7 +206,7 @@ export const pressKey = async (device, key, duration) => {
   await sequentialify(...funcs1);
   await wait(duration);
   const funcs2 = keys[key].up.map((stroke) => () => {
-    device.send({
+    device?.send({
       type: "keyboard",
       code: stroke.code,
       state: stroke.state,
@@ -175,7 +223,7 @@ export const miceClick = async (device, key) => {
   const strokes = mices[key];
   const funcs = strokes.map((stroke) => {
     return () => {
-      device.send(stroke);
+      device?.send(stroke);
     };
   });
   await sequentialify(...funcs);
@@ -191,11 +239,46 @@ export const micePress = async (device, key, duration) => {
       if (i > 0) {
         await wait(duration);
       }
-      device.send(stroke);
+      device?.send(stroke);
     };
   });
   await sequentialify(...funcs);
 };
+
+const defaultRollingDistance = 120; // mices['MWHEELUP'][0].rolling
+
+/**
+ * @type {import("./types").Core.MiceMove}
+ */
+export const miceMove = (device, delta) => {
+  const stroke = mices['MOUSEMOVE'][0];
+  stroke.x = delta.x || 0;
+  stroke.y = delta.y || 0;
+  device?.send(stroke);
+}
+
+/**
+ * @type {import("./types").Core.MiceRoll}
+ */
+export const miceRoll = (device, rolling) => {
+  const stroke = mices['MWHEELUP'][0];
+  stroke.rolling = rolling ?? 0;
+  device?.send(stroke);
+}
+
+/**
+ * @type {import("./types").Core.MiceWheelDown}
+ */
+export const miceWheelDown = (device, rolling) => {
+  miceRoll(device, -Math.abs(rolling ?? defaultRollingDistance));
+}
+
+/**
+ * @type {import("./types").Core.MiceWheelUp}
+ */
+export const miceWheelUp = (device, rolling) => {
+  miceRoll(device, Math.abs(rolling ?? defaultRollingDistance));
+}
 
 /**
  * @type {import("./types").Core.UseKey}
@@ -203,7 +286,10 @@ export const micePress = async (device, key, duration) => {
 export const useKey = async (key, {
   pressDuration: dr = void 0,
   mode = void 0,
-  device = void 0
+  device = void 0,
+  rolling,
+  x,
+  y,
 } = {
     pressDuration: void 0,
     mode: void 0,
@@ -226,6 +312,17 @@ export const useKey = async (key, {
   if (mouseKeyNames.has(key)) {
     return await (dr ? micePress(device || mice, key, dr) : miceClick(device || mice, key));
   }
+  switch (key) {
+    case "MOUSEMOVE": {
+      return miceMove(device || mice, { x, y });
+    }
+    case "MWHEELDOWN": {
+      return miceWheelDown(device || mice, rolling);
+    }
+    case "MWHEELUP": {
+      return miceWheelUp(device || mice, rolling);
+    }
+  }
   logger.error(`Unsupported key: ${key}`);
   return Promise.resolve();
 };
@@ -235,7 +332,7 @@ export const useKey = async (key, {
  */
 export const downKey = async (device, key) => {
   const funcs1 = keys[key].down.map((stroke) => () => {
-    device.send({
+    device?.send({
       type: "keyboard",
       code: stroke.code,
       state: stroke.state,
@@ -243,11 +340,6 @@ export const downKey = async (device, key) => {
     });
   });
   await sequentialify(...funcs1);
-  // 持续发送按下指令，直到 state.activeKeys 中没有相应 key
-  // while (state.isKeyActive(key)) {
-  //   await sequentialify(...funcs1);
-  //   await wait(10); // 添加一个小的延迟，防止过度占用 CPU
-  // }
 };
 
 /**
@@ -255,7 +347,7 @@ export const downKey = async (device, key) => {
  */
 export const upKey = async (device, key) => {
   const funcs2 = keys[key].up.map((stroke) => () => {
-    device.send({
+    device?.send({
       type: "keyboard",
       code: stroke.code,
       state: stroke.state,
@@ -266,7 +358,16 @@ export const upKey = async (device, key) => {
 };
 
 /**
- * @todo 未来实现检测手动层面鼠标状态
+ * 清除鼠标滚动和移动状态记录
+ */
+const clearMouseState = () => {
+  state.clearActiveKey('MWHEELUP');
+  state.clearActiveKey('MWHEELDOWN');
+  state.clearActiveKey('MOUSEMOVE');
+}
+
+/**
+ * @param {import("node-interception").Stroke} stroke
  */
 const recordKeyState = (stroke) => {
   if (stroke.type === "keyboard") {
@@ -289,7 +390,38 @@ const recordKeyState = (stroke) => {
       }
     }
   } else if (stroke.type === "mouse") {
-    // @todo 实现鼠标事件的处理wsswws
+    const MouseKeyNamesArray = Array.from(mouseKeyNames);
+    switch (stroke.state) {
+      case mices['MWHEELUP'][0].state: { // 鼠标滚动事件
+        state.setActiveKey(stroke.rolling > 0 ? 'MWHEELUP' : 'MWHEELDOWN');
+      }
+      case mices['MOUSEMOVE'][0].state: { // 鼠标移动事件
+        state.setActiveKey('MOUSEMOVE');
+      }
+      default: { // 鼠标点击事件
+        const pressedKey = MouseKeyNamesArray.find((name) => {
+          /**
+           * @type {import("node-interception").MouseStroke[]}
+           */
+          const strokes = mices[name];
+          return strokes && strokes[0]?.state === stroke.state;
+        });
+        if (pressKey) {
+          state.setActiveKey(pressedKey);
+        } else {
+          const unpressedKey = MouseKeyNamesArray.find((name) => {
+            /**
+             * @type {import("node-interception").MouseStroke[]}
+             */
+            const strokes = mices[name];
+            return strokes && strokes[1]?.state === stroke.state;
+          });
+          if (unpressedKey) {
+            state.removeActiveKey(unpressedKey);
+          }
+        }
+      }
+    }
   }
 };
 
@@ -349,17 +481,16 @@ export const listen = async (listened, handler) => {
 
     let input = null;
     let baseKey = null;
-    if (stroke?.type === "keyboard") {
-      input = getStrokeKey(stroke);
-      baseKey = KeyBaseName(input);
-    }
+    input = getStrokeKey(stroke);
+    baseKey = KeyBaseName(input);
 
     if (!device || !stroke) {
       break;
     }
 
+    clearMouseState();
     state.listening && handler?.before && await handler.before(stroke, input, baseKey, device);
-    device.send(stroke);
+    device?.send(stroke);
     recordKeyState(stroke);
 
     if (!state.listening) {

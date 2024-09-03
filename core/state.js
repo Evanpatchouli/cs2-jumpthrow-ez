@@ -32,6 +32,11 @@ const state = {
       firstActive: state.keyState[key]?.firstActive
     };
   },
+  clearActiveKey(key)  {
+    if (state.isKeyActive(key)) {
+      state.removeActiveKey(key);
+    }
+  },
   isKeyActive(key) {
     return state.keyState[key]?.active;
   },

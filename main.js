@@ -15,7 +15,7 @@ import {
 
 /**
  * 
- * @param {{onListen: VoidFunction; offListen: VoidFunction}} options 
+ * @param {{onListen: VoidFunction; offListen: VoidFunction; socket: import('socket.io').Socket}} options 
  */
 function main(options) {
   logger.info("Press any key or move the mouse to generate strokes.");
@@ -34,7 +34,7 @@ function main(options) {
   core.onListen(options?.onListen);
   core.offListen(options?.offListen);
 
-  core.listen("keyboard", {
+  core.listen("all", {
     before: () => { },
     after: async (stroke, input, baseKey, device) => {
       concurrentify(
@@ -45,7 +45,7 @@ function main(options) {
         forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
         jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
         forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
-        rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
+        rightJumpThrow(stroke, input, "F12"), // right + wait(200) + jump + attack1
       );
     },
   }).catch((error) => logger.error(error));

@@ -12,6 +12,7 @@ const interception = new Interception();
 
 // Enable the capturing of all strokes.
 interception.setFilter("keyboard", FilterKeyState.ALL);
+interception.setFilter('mouse', FilterMouseState.ALL);
 
 const SCANCODE_ESC = 0x01;
 
@@ -29,7 +30,8 @@ async function listen() {
 
     concurrentify(
       () => {
-        console.log(stroke);
+        if (stroke.type === 'mouse')
+          console.log(stroke);
       }
       // Add your handler below  往下添加附加事件
     );
