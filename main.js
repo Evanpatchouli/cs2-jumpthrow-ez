@@ -11,6 +11,7 @@ import {
   jumpDoubleThrow,
   forwardJumpDoubleThrow,
   rightJumpThrow,
+  autoShoot,
 } from "./handlers/index.js";
 
 /**
@@ -46,6 +47,7 @@ function main(options) {
         jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
         forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
         rightJumpThrow(stroke, input, "F12"), // right + wait(200) + jump + attack1
+        autoShoot(stroke, input, 'MOUSE4', options?.socket) // 自动压枪
       );
     },
   }).catch((error) => logger.error(error));

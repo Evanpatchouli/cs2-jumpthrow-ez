@@ -6,6 +6,7 @@ import ni from "node-interception";
 import state from "./state.js";
 import logger from "./logger.js";
 import { sequentialify, wait } from "./utils.js";
+import emitter from "./events.js";
 
 const {
   listening,
@@ -57,7 +58,7 @@ os.setPriority(os.constants.priority.PRIORITY_HIGH);
 
 export const keyKeyNames = new Set(Object.keys(keys));
 const clickMiceActions = ["MOUSE1", "MOUSE2", "MOUSE3", "MOUSE4", "MOUSE5"];
-export const mouseKeyNames = new Set(Object.keys(clickMiceActions));
+export const mouseClickKeyNames = new Set(Object.keys(clickMiceActions));
 
 export const keyCodeToKeyNameMap = new Map();
 
@@ -309,7 +310,7 @@ export const useKey = async (key, {
     }
     return Promise.resolve();
   }
-  if (mouseKeyNames.has(key)) {
+  if (mouseClickKeyNames.has(key)) {
     return await (dr ? micePress(device || mice, key, dr) : miceClick(device || mice, key));
   }
   switch (key) {
@@ -368,59 +369,26 @@ const clearMouseState = () => {
 
 /**
  * @param {import("node-interception").Stroke} stroke
+ * @param {string} input
+ * @param {string} base
  */
-const recordKeyState = (stroke) => {
+const recordKeyState = (stroke, input, base) => {
+  const strokeKey = getStrokeKey(stroke);
+  const baseKey = KeyBaseName(strokeKey);
   if (stroke.type === "keyboard") {
-    const keyKeyNamesArray = Array.from(keyKeyNames);
-
-    const pressedKey = keyKeyNamesArray.find((name) => {
-      const key = keys[name];
-      return key && key.down.some((down) => down.code === stroke.code && down.state === stroke.state);
-    });
-    if (pressedKey) {
-      state.setActiveKey(pressedKey);
-    } else {
-      const unpressedKey = keyKeyNamesArray.find((name) => {
-        const key = keys[name];
-        return key && key.up.some((up) => up.code === stroke.code && up.state === stroke.state);
-      });
-
-      if (unpressedKey) {
-        state.removeActiveKey(unpressedKey);
-      }
+    if (strokeKey.endsWith('_down')) {
+      state.setActiveKey(baseKey);
+    } else if (strokeKey.endsWith('_up')) {
+      state.removeActiveKey(baseKey);
     }
   } else if (stroke.type === "mouse") {
-    const MouseKeyNamesArray = Array.from(mouseKeyNames);
-    switch (stroke.state) {
-      case mices['MWHEELUP'][0].state: { // 鼠标滚动事件
-        state.setActiveKey(stroke.rolling > 0 ? 'MWHEELUP' : 'MWHEELDOWN');
-      }
-      case mices['MOUSEMOVE'][0].state: { // 鼠标移动事件
-        state.setActiveKey('MOUSEMOVE');
-      }
-      default: { // 鼠标点击事件
-        const pressedKey = MouseKeyNamesArray.find((name) => {
-          /**
-           * @type {import("node-interception").MouseStroke[]}
-           */
-          const strokes = mices[name];
-          return strokes && strokes[0]?.state === stroke.state;
-        });
-        if (pressKey) {
-          state.setActiveKey(pressedKey);
-        } else {
-          const unpressedKey = MouseKeyNamesArray.find((name) => {
-            /**
-             * @type {import("node-interception").MouseStroke[]}
-             */
-            const strokes = mices[name];
-            return strokes && strokes[1]?.state === stroke.state;
-          });
-          if (unpressedKey) {
-            state.removeActiveKey(unpressedKey);
-          }
-        }
-      }
+    if (['MWHEELDOWN', 'MWHEELUP', 'MOUSEMOVE'].includes(baseKey)) {
+      return state.setActiveKey(baseKey);
+    }
+    if (strokeKey.endsWith('_down')) {
+      state.setActiveKey(baseKey);
+    } else if (strokeKey.endsWith('_up')) {
+      state.removeActiveKey(baseKey);
     }
   }
 };
@@ -503,4 +471,8 @@ export const listen = async (listened, handler) => {
   logger.info("Received stop signal, stop intercepting...");
   destroy();
   logger.warn(chalk.yellow("Disconnected"));
+}
+
+export const emit = (event) => {
+  emitter.emit(event);
 }

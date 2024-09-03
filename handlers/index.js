@@ -229,3 +229,4 @@ export const rightJumpThrow = (stroke, input, key) => {
   };
 };
 
+export { default as autoShoot } from "./autoShoot.js";

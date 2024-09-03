@@ -18,7 +18,7 @@ router.post('/start', (req, res) => {
 })
 
 router.post('/stop', (req, res) => {
-  core.setListening(false);
+  core.emit("stop");
   res.send(Resp.ok("监听暂停"));
 })
 

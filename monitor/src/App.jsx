@@ -29,7 +29,7 @@ function App() {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('message', (data) => {
-      toast.info(`Server: ${JSON.stringify(data)}`);
+      toast.info(`Server:${JSON.stringify(data)}`);
     });
     socket.on('status', (status) => {
       toast[status ? 'success' : 'info'](`拦截器状态: ${status ? '启用' : '休眠'}`);

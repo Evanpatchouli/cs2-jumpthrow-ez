@@ -34,6 +34,11 @@ const state = {
   switchJTDuration() {
     state.JTDurationIdx = (state.JTDurationIdx + 1) % state.JTDurations.length;
   },
+
+  useAutoShot: false,
+  SET_AUTO_SHOT(value) {
+    state.useAutoShot = value;
+  },
 };
 
 export default state;

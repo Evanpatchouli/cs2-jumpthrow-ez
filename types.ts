@@ -1,6 +1,7 @@
 import { Device, Stroke } from "node-interception";
 import keys from "./core/key_codes.json" assert { type: "json" };
 import mices from "./core/mouse_codes.json" assert { type: "json" };
+import type { Socket } from "socket.io";
 
 export declare namespace App {
   type Input = string | null | undefined;
@@ -12,6 +13,9 @@ export declare namespace App {
   }
   interface ForwardJumpThrowHandler {
     (stroke: Stroke, input: Input, key?: keyof typeof keys): void;
+  }
+  interface AutoShootHandler {
+    (stroke: Stroke, input: Input, key?: keyof typeof mices, socket?: Socket): void;
   }
 
   class State {

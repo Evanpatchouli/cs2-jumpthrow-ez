@@ -91,7 +91,10 @@ export declare namespace Core {
       options?: {
         pressDuration?: number | null,
         mode?: "down" | "up" | "clickOrPress"
-        device?: Device
+        device?: Device,
+        rolling?: number,
+        x?: number,
+        y?: number,
       }
     ): Promise<void>;
   }
