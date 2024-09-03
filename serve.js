@@ -13,5 +13,6 @@ server.listen(() => {
     offListen: () => {
       socket?.emit?.("status", false);
     },
+    socket,
   });
 });
