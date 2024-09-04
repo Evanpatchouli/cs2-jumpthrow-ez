@@ -27,11 +27,11 @@ export function onDestroy() {
 }
 
 export const onListen = (cb) => {
-  events.set('stop', cb);
+  events.set('start', cb);
 }
 
 export const offListen = (cb) => {
-  events.set('start', cb);
+  events.set('stop', cb);
 }
 
 export default emitter;
