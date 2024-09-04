@@ -142,13 +142,13 @@
   "ESC": {
     "down": [
       {
-        "code": 0,
+        "code": 1,
         "state": 0
       }
     ],
     "up": [
       {
-        "code": 0,
+        "code": 1,
         "state": 1
       }
     ]

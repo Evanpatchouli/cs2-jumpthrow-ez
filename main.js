@@ -35,7 +35,7 @@ function main(options) {
   core.onListen(options?.onListen);
   core.offListen(options?.offListen);
 
-  core.listen("all", {
+  core.listen("keyboard", {
     before: () => { },
     after: async (stroke, input, baseKey, device) => {
       concurrentify(
@@ -47,7 +47,7 @@ function main(options) {
         jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
         forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
         rightJumpThrow(stroke, input, "F12"), // right + wait(200) + jump + attack1
-        autoShoot(stroke, input, 'MOUSE5', 'MOUSE4', options?.socket) // 自动压枪
+        // autoShoot(stroke, input, 'MOUSE5', 'MOUSE4', options?.socket) // 自动压枪
       );
     },
   }).catch((error) => logger.error(error));
