@@ -64,3 +64,23 @@ export const getMSDistance = (start, end, toFix) => {
   const distance = (end - start).toFixed(toFix ?? 3);
   return distance;
 };
+
+/**
+ * 
+ * @param {Array<*>} a 
+ * @param {Array<*>} b 
+ * @param {boolean|undefined} strict 
+ * @returns 
+ */
+export const ArrayEqual = (a, b, strict = false) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+  // 元素相同，不论顺序
+  if (strict) {
+    return a.every((value, idx) => value === b[idx]);
+  } else {
+    const bSet = new Set(b);
+    return a.every((value) => bSet.has(value));
+  }
+}

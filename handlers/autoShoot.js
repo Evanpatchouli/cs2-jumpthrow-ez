@@ -2,8 +2,9 @@ import cs2config from "../configs/cs2.config.js";
 const { keyBinding: cs2 } = cs2config;
 import { areKeysActive, getKeyState, KeyDownName, KeyUpName, useKey } from "../core/index.js";
 import * as shootData from "../data/shoot.js";
-const ak47key = ['MOUSE3']; // ak47  g3
-const m4a1key = ['MOUSE5']; // m4a4 g5
+const ak47key = ["KP_1"]; // ak47
+const m4a1key = ['KP_2']; // m4a4
+const onKey = 'MOUSE5';
 const offKey = 'MOUSE4'; // off alt+g4
 
 const state = {
@@ -39,25 +40,38 @@ const shoot = (weapon) => {
   shootStep();
 };
 
+const useAutoShoot = (isUse, socket) => {
+  state.SET_AUTOSHOT(isUse);
+  socket?.emit('message', isUse ? '自动压枪已开启' : '自动压枪已关闭');
+}
+
 /**
  * @type {import("../types.js").App.AutoShootHandler}
  */
-const autoShoot = (stroke, input, stateKey, socket) => {
+const autoShoot = (stroke, input, _onKey, _offKey, socket) => {
   return () => {
-    if (stroke?.type !== 'mouse') return;
-    if (input === KeyDownName(stateKey || offKey)) {
-      state.SET_AUTOSHOT(!state.useAutoShot);
-      socket?.emit('message', state.useAutoShot ? '自动压枪已开启' : '自动压枪已关闭');
+    if (stroke?.type === 'keyboard') {
+      if (areKeysActive(ak47key)) {
+        state.SET_WEAPON('ak47');
+        useAutoShoot(true, socket);
+        socket?.emit('message', 'AK47');
+      } else if (areKeysActive(m4a1key)) {
+        state.SET_WEAPON('m4a1');
+        useAutoShoot(true, socket);
+        socket?.emit('message', 'M4A1');
+      }
+      return;
+    }
+    const onKeyDown = KeyDownName(_onKey || onKey);
+    const offKeyDown = KeyDownName(_offKey || offKey);
+
+    if (input === onKeyDown || input === offKeyDown) {
+      const isUse = input === onKeyDown;
+      state.SET_AUTOSHOT(isUse);
+      useAutoShoot(isUse, socket);
     }
     if (!state.useAutoShot) return;
 
-    if (areKeysActive(ak47key)) {
-      state.SET_WEAPON('ak47');
-      socket?.emit('message', 'AK47');
-    } else if (areKeysActive(m4a1key)) {
-      state.SET_WEAPON('m4a1');
-      socket?.emit('message', 'M4A1');
-    }
 
     if (input === KeyDownName(cs2.attack1) && state.useAutoShot) {
       shoot(state.weapon);

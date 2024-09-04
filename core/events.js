@@ -5,12 +5,12 @@ const emitter = new EventEmitter();
 
 const events = new Map();
 
-emitter.on('listen', () => {
+emitter.on('stop', () => {
   state.SET_LISTENING(false);
   events.get('stop')?.();
 });
 
-emitter.on('offlisten', () => {
+emitter.on('start', () => {
   state.SET_LISTENING(true);
   events.get('start')?.();
 });

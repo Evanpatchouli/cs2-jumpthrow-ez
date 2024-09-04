@@ -17,18 +17,6 @@ const {
 } = state;
 
 /**
- * 
- * @param {boolean} value 
- */
-const setListening = (value) => {
-  if (value) {
-    emitter.emit('start');
-  } else {
-    emitter.emit('stop');
-  }
-}
-
-/**
  * @type {import("./types".Core['start'])}
  */
 const start = () => {
@@ -51,6 +39,18 @@ const destroy = () => {
  */
 const isListening = () => {
   return state.listening;
+}
+
+/**
+ * 
+ * @param {boolean} value 
+ */
+const setListening = (value) => {
+  if (value) {
+    start();
+  } else {
+    stop();
+  }
 }
 
 export {
@@ -96,12 +96,12 @@ Object.keys(keys).forEach((keyName) => {
 });
 
 const { Interception, FilterKeyState, FilterMouseState } = ni;
-export const interception = new Interception();
+const interception = new Interception();
 
-export function listenKeyboard() {
+function listenKeyboard() {
   interception.setFilter("keyboard", FilterKeyState.ALL); // 监听键盘输入
 }
-export function listenMouse() {
+function listenMouse() {
   interception.setFilter("mouse", FilterMouseState.ALL); // 监听键盘输入
 }
 

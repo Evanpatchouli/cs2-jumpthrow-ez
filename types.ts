@@ -15,7 +15,13 @@ export declare namespace App {
     (stroke: Stroke, input: Input, key?: keyof typeof keys): void;
   }
   interface AutoShootHandler {
-    (stroke: Stroke, input: Input, key?: keyof typeof mices, socket?: Socket): void;
+    (
+      stroke: Stroke,
+      input: Input,
+      onKey?: keyof typeof mices | keyof typeof keys,
+      offKey?: keyof typeof mices | keyof typeof keys,
+      socket?: Socket
+    ): void;
   }
 
   class State {
@@ -35,7 +41,7 @@ export declare namespace App {
     readonly JTDurations: [40, 80, 100]; // 急停按击键盘时长（键程）
     readonly JTDurationIdx: number;
     /** 急停的键程短适用于低速移动急停，键程长适用于高速移动急停 */
-    JTDuration<IDX extends number = 0 | 1 | 2>(idx?: IDX): State['JTDurations'][IDX];
+    JTDuration<IDX extends number = 0 | 1 | 2>(idx?: IDX): State["JTDurations"][IDX];
     /** 切换急停键程 */
     switchJTDuration(): void;
   }
