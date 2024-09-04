@@ -78,8 +78,8 @@ export {
 os.setPriority(os.constants.priority.PRIORITY_HIGH);
 
 export const keyKeyNames = new Set(Object.keys(keys));
-const clickMiceActions = ["MOUSE1", "MOUSE2", "MOUSE3", "MOUSE4", "MOUSE5"];
-export const mouseClickKeyNames = new Set(Object.keys(clickMiceActions));
+const clickMiceActions = ["MOUSE1", "MOUSE2", "MOUSE3", "MOUSE4", "MOUSE5", "MOUSE6"];
+export const mouseClickKeyNames = new Set(clickMiceActions);
 
 export const keyCodeToKeyNameMap = new Map();
 
