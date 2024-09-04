@@ -6,10 +6,9 @@ import ni from "node-interception";
 import state from "./state.js";
 import logger from "./logger.js";
 import { sequentialify, wait } from "./utils.js";
-import emitter from "./events.js";
+import emitter, { onListen, offListen, onDestroy } from "./events.js";
 
 const {
-  listening,
   isKeyActive,
   areKeysActive,
   getKeyState,
@@ -17,32 +16,45 @@ const {
   someKeysActive,
 } = state;
 
-const onListen = (callback) => {
-  state.onListen = callback;
-}
-
-const offListen = (callback) => {
-  state.offListen = callback;
-}
-
 /**
  * 
  * @param {boolean} value 
  */
 const setListening = (value) => {
-  state.SET_LISTENING(value);
   if (value) {
-    state.onListen?.();
+    emitter.emit('start');
   } else {
-    state.offListen?.();
+    emitter.emit('stop');
   }
 }
 
+/**
+ * @type {import("./types".Core['start'])}
+ */
+const start = () => {
+  emitter.emit('start');
+}
+/**
+ * @type {import("./types".Core['stop'])}
+ */
+const stop = () => {
+  emitter.emit('stop');
+}
+/**
+ * @type {import("./types".Core['destroy'])}
+ */
+const destroy = () => {
+  emitter.emit('destroy');
+}
+/**
+ * @type {import("./types".Core['isListenning'])}
+ */
 const isListening = () => {
   return state.listening;
 }
 
 export {
+  interception,
   isListening,
   setListening,
   isKeyActive,
@@ -50,8 +62,17 @@ export {
   getKeyState,
   noneKeysActive,
   someKeysActive,
+  /** @type {import("./types").Core['onListen']} */
   onListen,
-  offListen
+  /** @type {import("./types").Core['offListen']} */
+  offListen,
+  /** @type {import("./types").Core['onDestroy']} */
+  onDestroy,
+  start,
+  stop,
+  destroy,
+  listenKeyboard,
+  listenMouse,
 }
 
 os.setPriority(os.constants.priority.PRIORITY_HIGH);
@@ -76,14 +97,6 @@ Object.keys(keys).forEach((keyName) => {
 
 const { Interception, FilterKeyState, FilterMouseState } = ni;
 export const interception = new Interception();
-
-/**
- * Destroy the intercaeption instance and remove all listeners.
- * 关闭拦截器实例并移除所有监听器
- */
-export function destroy() {
-  interception?.destroy();
-}
 
 export function listenKeyboard() {
   interception.setFilter("keyboard", FilterKeyState.ALL); // 监听键盘输入
@@ -468,7 +481,6 @@ export const listen = async (listened, handler) => {
     dispatchAll();
     handler?.after?.(stroke, input, KeyBaseName(input), device);
   }
-  logger.info("Received stop signal, stop intercepting...");
   destroy();
   logger.warn(chalk.yellow("Disconnected"));
 }

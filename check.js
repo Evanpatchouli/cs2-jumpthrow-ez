@@ -27,7 +27,7 @@ async function listen() {
     const stroke = device?.receive();
 
     if (!device || !stroke || (stroke?.type === "keyboard" && stroke.code === SCANCODE_ESC)) break;
-
+    device.send(stroke);
     concurrentify(
       () => {
         if (stroke.type === 'mouse')

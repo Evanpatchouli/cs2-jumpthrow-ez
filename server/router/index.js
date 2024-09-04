@@ -13,12 +13,12 @@ router.get('/status', (req, res) => {
 });
 
 router.post('/start', (req, res) => {
-  core.setListening(true);
+  core.start();
   res.send(Resp.ok("监听启用"));
 })
 
 router.post('/stop', (req, res) => {
-  core.emit("stop");
+  core.stop();
   res.send(Resp.ok("监听暂停"));
 })
 

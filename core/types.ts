@@ -27,7 +27,9 @@ export declare namespace Core {
     isKeyActive(key: string): boolean;
     /** 询问某些键是否处于激活状态，可用于判断组合键 */
     areKeysActive(keys: string[]): boolean;
+    /** 询问某些键是否全部不处于激活状态 */
     noneKeysActive(keys: string[]): boolean;
+    /** 询问某些键是否至少有一项处于激活状态 */
     someKeysActive(keys: string[]): boolean;
     onListen: () => void;
     offListen: () => void;
@@ -98,6 +100,25 @@ export declare namespace Core {
       }
     ): Promise<void>;
   }
+
+  type CoreEvent = "start" | "stop" | "destroy";
+  export function emit(event: CoreEvent): void;
+  /** 销毁拦截器实例 */
+  export function destroy(): void;
+  /** 订阅销毁事件 */
+  export function onDestroy(): void;
+  /** 启用拦截器 */
+  export function start(): void;
+  /** 订阅 start 事件 */
+  export function onListen(cb: () => void): void;
+  /** 停用拦截器 */
+  export function stop(): void;
+  /** 订阅 stop 事件 */
+  export function offListen(cb: () => void): void;
+
+  
+  /** 是否拦截中 */
+  export function isListenning(): boolean;
 
   namespace Utils {
     /**
