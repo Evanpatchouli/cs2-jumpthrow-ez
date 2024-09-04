@@ -28,7 +28,7 @@ function main(options) {
   logger.info("【F11】前双键跳投");
   logger.info("【F12】Mirage VIP 慢烟");
 
-  state.SET_JITING(true);
+  state.SET_JITING(false);
   state.SET_USE_JT_DURATION_CALC(true);
   logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
 
