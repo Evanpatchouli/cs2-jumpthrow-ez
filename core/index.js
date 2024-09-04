@@ -386,8 +386,9 @@ const clearMouseState = () => {
  * @param {string} base
  */
 const recordKeyState = (stroke, input, base) => {
-  const strokeKey = getStrokeKey(stroke);
-  const baseKey = KeyBaseName(strokeKey);
+  const strokeKey = input;
+  const baseKey = base;
+  if (!strokeKey) return logger.warn('Unknown stroke key:', stroke);
   if (stroke.type === "keyboard") {
     if (strokeKey.endsWith('_down')) {
       state.setActiveKey(baseKey);
@@ -472,14 +473,14 @@ export const listen = async (listened, handler) => {
     clearMouseState();
     state.listening && handler?.before && await handler.before(stroke, input, baseKey, device);
     device?.send(stroke);
-    recordKeyState(stroke);
+    recordKeyState(stroke, input, baseKey);
 
     if (!state.listening) {
       continue;
     }
 
     dispatchAll();
-    handler?.after?.(stroke, input, KeyBaseName(input), device);
+    handler?.after?.(stroke, input, baseKey, device);
   }
   destroy();
   logger.warn(chalk.yellow("Disconnected"));

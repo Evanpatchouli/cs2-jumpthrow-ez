@@ -30,7 +30,7 @@ async function listen() {
     device.send(stroke);
     concurrentify(
       () => {
-        if (stroke.type === 'mouse')
+        if (stroke.type === 'keyboard')
           console.log(stroke);
       }
       // Add your handler below  往下添加附加事件

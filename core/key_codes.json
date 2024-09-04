@@ -1244,5 +1244,61 @@
         "state": 3
       }
     ]
+  },
+  "UP": {
+    "down": [
+      {
+        "code": 72,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 72,
+        "state": 3
+      }
+    ]
+  },
+  "RIGHT": {
+    "down": [
+      {
+        "code": 77,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 77,
+        "state": 3
+      }
+    ]
+  },
+  "DOWN": {
+    "down": [
+      {
+        "code": 80,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 80,
+        "state": 3
+      }
+    ]
+  },
+  "LEFT": {
+    "down": [
+      {
+        "code": 75,
+        "state": 2
+      }
+    ],
+    "up": [
+      {
+        "code": 75,
+        "state": 3
+      }
+    ]
   }
 }
