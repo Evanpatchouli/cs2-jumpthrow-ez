@@ -35,7 +35,7 @@ function main(options) {
   core.onListen(options?.onListen);
   core.offListen(options?.offListen);
 
-  core.listen("keyboard", {
+  core.listen('keyboard', {
     before: () => { },
     after: async (stroke, input, baseKey, device) => {
       concurrentify(

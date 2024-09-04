@@ -1,17 +1,21 @@
 import cs2config from "../configs/cs2.config.js";
 const { keyBinding: cs2 } = cs2config;
 import { areKeysActive, getKeyState, KeyDownName, KeyUpName, useKey } from "../core/index.js";
-// import * as shootData from "../data/shoot.js";
-import ak47 from "../data/ak47.lite.json"
-import m4a1 from "../data/m4a1.lite.json"
-const shootData = {
-  ak47,
-  m4a1
-}
+import * as shootData from "../data/shoot.js";
 const ak47key = ["KP_1"]; // ak47
 const m4a1key = ['KP_2']; // m4a4
 const onKey = 'MOUSE5';
 const offKey = 'MOUSE4'; // off alt+g4
+
+global.requestAnimationFrame = (callback) => {
+  return setImmediate(() => {
+    callback(Date.now());
+  });
+};
+
+global.cancelAnimationFrame = (id) => {
+  clearImmediate(id);
+};
 
 const state = {
   useAutoShot: false,
@@ -20,8 +24,6 @@ const state = {
   SET_WEAPON: (value) => state.weapon = value,
   shootTask: null,
 };
-
-const speed = 1.25;
 
 /**
  * Use mice
@@ -32,20 +34,26 @@ const shoot = (weapon) => {
 
   const data = shootData[weapon]; // {x,y,d}[]  d 是距离下一次移动的时间差
   let index = 0;
+  let lastTime = performance.now();
 
-  const shootStep = () => {
+  const shootStep = (currentTime) => {
     if (index >= data.length) {
-      clearTimeout(state.shootTask);
       state.shootTask = null;
       return;
     }
     const { x, y, d } = data[index];
-    useKey('MOUSEMOVE', { x, y })
-    index++;
-    state.shootTask = setTimeout(shootStep, d / speed);
+    const elapsed = currentTime - lastTime;
+
+    if (elapsed >= d) {
+      useKey('MOUSEMOVE', { x, y });
+      index++;
+      lastTime = currentTime;
+    }
+
+    state.shootTask = requestAnimationFrame(shootStep);
   };
 
-  shootStep();
+  state.shootTask = requestAnimationFrame(shootStep);
 };
 
 const useAutoShoot = (isUse, socket) => {
@@ -54,22 +62,18 @@ const useAutoShoot = (isUse, socket) => {
 }
 
 /**
- * Effect is not good due to nodejs cannot sleep pariculary.
  * @type {import("../types.js").App.AutoShootHandler}
  */
 const autoShoot = (stroke, input, _onKey, _offKey, socket) => {
   return () => {
-    if (stroke?.type === 'keyboard') {
-      if (areKeysActive(ak47key)) {
-        state.SET_WEAPON('ak47');
-        useAutoShoot(true, socket);
-        socket?.emit('message', 'AK47');
-      } else if (areKeysActive(m4a1key)) {
-        state.SET_WEAPON('m4a1');
-        useAutoShoot(true, socket);
-        socket?.emit('message', 'M4A1');
-      }
-      return;
+    if (areKeysActive(ak47key)) {
+      state.SET_WEAPON('ak47');
+      useAutoShoot(true, socket);
+      socket?.emit('message', 'AK47');
+    } else if (areKeysActive(m4a1key)) {
+      state.SET_WEAPON('m4a1');
+      useAutoShoot(true, socket);
+      socket?.emit('message', 'M4A1');
     }
     const onKeyDown = KeyDownName(_onKey || onKey);
     const offKeyDown = KeyDownName(_offKey || offKey);
@@ -80,13 +84,12 @@ const autoShoot = (stroke, input, _onKey, _offKey, socket) => {
       useAutoShoot(isUse, socket);
     }
     if (!state.useAutoShot) return;
-
-
     if (input === KeyDownName(cs2.attack1) && state.useAutoShot) {
+
       shoot(state.weapon);
     }
     if (input === KeyUpName(cs2.attack1) && state.shootTask) {
-      clearTimeout(state.shootTask);
+      cancelAnimationFrame(state.shootTask);
       state.shootTask = null;
     }
   };
