@@ -1,5 +1,5 @@
 import EventEmitter from 'node:events';
-import state from './state';
+import state from './state.js';
 
 const emitter = new EventEmitter();
 

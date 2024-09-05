@@ -1,13 +1,13 @@
 import cs2config from "../configs/cs2.config.js";
 const { keyBinding: cs2 } = cs2config;
 import { areKeysActive, getKeyState, KeyDownName, KeyUpName, useKey } from "../core/index.js";
-// import * as shootData from "../data/shoot.js";
-import ak47 from "../data/ak47.lite.json"
-import m4a1 from "../data/m4a1.lite.json"
-const shootData = {
-  ak47,
-  m4a1
-}
+import * as shootData from "../data/shoot.js";
+// import ak47 from "../data/ak47.lite.json"
+// import m4a1 from "../data/m4a1.lite.json"
+// const shootData = {
+//   ak47,
+//   m4a1
+// }
 const ak47key = ["KP_1"]; // ak47
 const m4a1key = ['KP_2']; // m4a4
 const onKey = 'MOUSE5';
@@ -21,7 +21,7 @@ const state = {
   shootTask: null,
 };
 
-const speed = 1.25;
+const speed = 3;
 
 /**
  * Use mice

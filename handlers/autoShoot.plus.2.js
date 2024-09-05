@@ -1,8 +1,13 @@
 import cs2config from "../configs/cs2.config.js";
 const { keyBinding: cs2 } = cs2config;
-import { areKeysActive, getKeyState, KeyDownName, KeyUpName, useKey } from "../core/index.js";
-import { waitSync } from "../core/utils.js";
+import { areKeysActive, getKeyState, KeyDownName, KeyUpName } from "../core/index.js";
+import { Worker } from 'worker_threads';
+import path from 'path';
 import * as shootData from "../data/shoot.js";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const ak47key = ["KP_1"]; // ak47
 const m4a1key = ['KP_2']; // m4a4
@@ -28,21 +33,24 @@ const shoot = (weapon) => {
 
   const data = shootData[weapon]; // {x,y,d}[]  d 是距离下一次移动的时间差
 
-  const shootStep = () => {
-    let index = 0;
-    while (index < data.length) {
-      const { x, y, d } = data[index];
-      useKey('MOUSEMOVE', { x, y });
-      index++;
-      waitSync(d / speed, {
-        breakSignal: () => (state.shootTask === null)
-      });
-    }
-    state.shootTask = null;
-  };
+  const breakSignal = state.shootTask;
+  const continueSignal = false;
+  const onLoop = null;
 
-  state.shootTask = true;
-  setImmediate(shootStep);
+  const worker = new Worker(path.resolve(__dirname, './shootWorker.js'), {
+    workerData: { data, speed, breakSignal, continueSignal, onLoop }
+  });
+
+  worker.on('message', (message) => {
+    if (message.type === 'done') {
+      state.shootTask = null;
+    } else if (message.type === 'break') {
+      worker.terminate();
+      state.shootTask = null;
+    }
+  });
+
+  state.shootTask = worker;
 };
 
 const useAutoShoot = (isUse, socket) => {
@@ -80,11 +88,10 @@ const autoShoot = (stroke, input, _onKey, _offKey, socket) => {
 
     if (input === KeyDownName(cs2.attack1) && state.useAutoShot) {
       shoot(state.weapon);
-      return;
     }
     if (input === KeyUpName(cs2.attack1) && state.shootTask) {
+      state.shootTask.terminate();
       state.shootTask = null;
-      return;
     }
   };
 };

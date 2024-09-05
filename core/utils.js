@@ -25,10 +25,28 @@ export const wait = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-export const waitSync = (ms) => {
-  const end = Date.now() + ms;
-  while (Date.now() < end) {
+/**
+ * - 等待时间 | Wait time
+ * @param time 等待时间 | The waiting time
+ * @type {import("./types").Core['Utils']['waitSync']}
+ */
+export const waitSync = (ms, options = { breakSignal: false, continueSignal: false, onLoop: null }) => {
+  const breakSignal = typeof options.breakSignal !== 'function' ? () => options.breakSignal : options.breakSignal;
+  const continueSignal = typeof options.continueSignal !== 'function' ? () => options.continueSignal : options.continueSignal;
+
+  let now = performance.now();
+  const end = performance.now() + ms;
+  while ((now = performance.now()) <= end) {
     // 空循环，阻塞主线程
+    if (breakSignal()) {
+      break;
+    }
+    if (continueSignal()) {
+      continue;
+    }
+    if (options.onLoop) {
+      options.onLoop();
+    }
   }
 };
 

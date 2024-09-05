@@ -116,7 +116,7 @@ export declare namespace Core {
   /** 订阅 stop 事件 */
   export function offListen(cb: () => void): void;
 
-  
+
   /** 是否拦截中 */
   export function isListenning(): boolean;
 
@@ -126,6 +126,17 @@ export declare namespace Core {
      * @param time 等待时间 | The waiting time
      */
     function wait(time: number): Promise<void>;
+
+    /**
+     * - 等待时间 | Wait time
+     * @param time 等待时间 | The waiting time
+     * @param options 选项 | Options
+     */
+    function waitSync(time: number, options: {
+      breakSignal?: boolean | ((time: number) => void);
+      continueSignal?: boolean | ((time: number) => void);
+      onLoop?: ((time: number) => void) | null;
+    }): void;
     /** 
      * - 基于 performance.now() 的时间戳差 | The timestamp difference based on performance.now()
      * @param start 开始时间 | The start time
