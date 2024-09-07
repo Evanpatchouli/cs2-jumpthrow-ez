@@ -6,7 +6,11 @@ import type { Socket } from "socket.io";
 export declare namespace App {
   type Input = string | null | undefined;
   interface JitingHandler {
-    (stroke: Stroke, input: Input, toggleKey?: keyof typeof keys, switchDurationKey?: keyof typeof keys): void;
+    (stroke: Stroke, input: Input, toggleKey: keyof typeof keys, options: {
+      switchDurationKey?: keyof typeof keys
+      useDurationCalc?: boolean;
+      applyOnForwardBack?: boolean;
+    }): void;
   }
   interface JumpThrowHandler {
     (stroke: Stroke, input: Input, key?: keyof typeof keys): void;

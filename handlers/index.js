@@ -35,13 +35,15 @@ export const clickReverseKey = async (key, reverseKey) => {
  * - 由于自动反向按键，**跳跃时**建议**暂时禁用**，否则跳不远
  * @type {import("../types.js").App.JitingHandler}
  */
-export const jiting = (stroke, input, toggleKey, switchDurationKey) => {
+export const jiting = (stroke, input, toggleKey, options = { switchDurationKey: null, useDurationCalc: true, applyOnForwardBack: false }) => {
+  const { switchDurationKey, useDurationCalc, applyOnForwardBack } = options;
+  state.SET_USE_JT_DURATION_CALC(useDurationCalc);
   return async () => {
     if (stroke?.type !== "keyboard") return;
     toggleKey = toggleKey || "J";
     // 启用或禁用
     if (input === KeyUpName(toggleKey)) {
-      state.SET_JITING(!state.useJiting);
+      return state.SET_JITING(!state.useJiting);
     }
     // 切换键程
     if (switchDurationKey && core.keyKeyNames.has(switchDurationKey)) {
@@ -51,13 +53,14 @@ export const jiting = (stroke, input, toggleKey, switchDurationKey) => {
     }
     if (state.useJiting === false) return;
     let execed = false;
-    // await wait(10);
     const dekeyMap = {
-      [cs2.forward]: cs2.back,
       [cs2.left]: cs2.right,
-      [cs2.back]: cs2.forward,
       [cs2.right]: cs2.left,
     };
+    if (applyOnForwardBack) {
+      dekeyMap[cs2.forward] = cs2.back;
+      dekeyMap[cs2.back] = cs2.forward;
+    }
     const baseKey = KeyBaseName(input);
     const reverseKey = dekeyMap[baseKey];
     if (input?.includes("up")) {

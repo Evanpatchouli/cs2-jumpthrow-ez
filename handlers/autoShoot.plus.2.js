@@ -1,7 +1,7 @@
 import cs2config from "../configs/cs2.config.js";
 const { keyBinding: cs2 } = cs2config;
 import { areKeysActive, getKeyState, KeyDownName, KeyUpName } from "../core/index.js";
-import { Worker } from 'worker_threads';
+import { Worker } from 'node:worker_threads';
 import path from 'path';
 import * as shootData from "../data/shoot.js";
 import { fileURLToPath } from 'url';
@@ -19,6 +19,7 @@ const state = {
   SET_AUTOSHOT: (value) => state.useAutoShot = value,
   weapon: "ak47",
   SET_WEAPON: (value) => state.weapon = value,
+  /** @type {Worker} */
   shootTask: null,
 };
 
@@ -31,7 +32,7 @@ const speed = 1;
 const shoot = (weapon) => {
   if (state.shootTask) return;
 
-  const data = shootData[weapon]; // {x,y,d}[]  d 是距离下一次移动的时间差
+  const data = shootData[weapon].slice(30); // {x,y,d}[]  d 是距离下一次移动的时间差
 
   const breakSignal = state.shootTask;
   const continueSignal = false;
@@ -48,6 +49,10 @@ const shoot = (weapon) => {
       worker.terminate();
       state.shootTask = null;
     }
+  });
+
+  worker.on('error', (error) => {
+    console.error(error);
   });
 
   state.shootTask = worker;
@@ -90,7 +95,7 @@ const autoShoot = (stroke, input, _onKey, _offKey, socket) => {
       shoot(state.weapon);
     }
     if (input === KeyUpName(cs2.attack1) && state.shootTask) {
-      state.shootTask.terminate();
+      state.shootTask?.terminate();
       state.shootTask = null;
     }
   };
