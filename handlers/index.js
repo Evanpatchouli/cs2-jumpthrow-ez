@@ -32,7 +32,7 @@ export const clickReverseKey = async (key, reverseKey) => {
  * - 关于急停键程，建议比理论最佳键程稍短。
  * - 误差的存在，若实际输出的键程比实际最佳略长可能会造成一点反向位移。
  * - 宁可停的慢一点，让丝滑的急停，给自己一点瞄准容错时间，而不是瞬间成为定靶子
- * - 由于自动反向按键，**跳跃时**建议**暂时禁用**，否则跳不远
+ * - 由于WS反向按键，**跳跃时**建议**暂时禁用**，否则跳不远
  * @type {import("../types.js").App.JitingHandler}
  */
 export const jiting = (stroke, input, toggleKey, options = { switchDurationKey: null, useDurationCalc: true, applyOnForwardBack: false }) => {
