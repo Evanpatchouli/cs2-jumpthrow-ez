@@ -1,4 +1,4 @@
-# Device Interception Example
+# CS2 轻松跳投
 
 <p align="left">
   <a href="#"><img alt="github" src="https://img.shields.io/badge/Github-grey.svg"></a>
@@ -36,25 +36,27 @@ npm run install:driver
 function main() {
   logger.info("Press any key or move the mouse to generate strokes.");
   logger.info(`Press ${chalk.blueBright("ESC")} to exit and restore back control.`);
-  logger.info('【F7】跳投');
-  logger.info('【F8】右键跳投');
-  logger.info('【F9】前跳投');
-  logger.info('【F10】双键跳投');
-  logger.info('【F11】前双键跳投');
-  logger.info('【F12】Mirage VIP 慢烟');
+  logger.info("【F7】跳投");
+  logger.info("【F8】右键跳投");
+  logger.info("【F9】前跳投");
+  logger.info("【F10】双键跳投");
+  logger.info("【F11】前双键跳投");
+  logger.info("【F12】Mirage VIP 慢烟");
 
-  core.listen('keyboard', {
-    after: async (stroke, input, baseKey, device) => {
-      concurrentify(
-        jumpThrow(stroke, input, "F7"), // jump + attack1
-        jumpThrow2(stroke, input, "F8"), // jump + attack2
-        forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
-        jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
-        forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
-        rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
-      );
-    }
-  }).catch((error) => logger.error(error));
+  core
+    .listen("keyboard", {
+      after: async (stroke, input, baseKey, device) => {
+        concurrentify(
+          jumpThrow(stroke, input, "F7"), // jump + attack1
+          jumpThrow2(stroke, input, "F8"), // jump + attack2
+          forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1
+          jumpDoubleThrow(stroke, input, "F10"), // jump + attack1 + attack2
+          forwardJumpDoubleThrow(stroke, input, "F11"), // forward + jump + attack1 + attack2
+          rightJumpThrow(stroke, input, "F12") // right + wait(200) + jump + attack1
+        );
+      },
+    })
+    .catch((error) => logger.error(error));
 }
 ```
 
@@ -96,11 +98,11 @@ pm2 start ./pm2/serve.json
 - 脚本被终止，可能是被游戏的反作弊系统杀死了。
   - 对于这种情况，最好不要试图再在游戏中运行此程序。因为这可能导致你被游戏封号。
 
-## Credits
+## 致谢
 
-- [Oblitum] for creating the original interception library.
-- [Rami Sabbagh] for the wrapper library `node-interception`.
-- [Evanpatchouli] for creating this project.
+- [Oblitum] 创建了原始的 interception 库。
+- [Rami Sabbagh] 提供了 `node-interception` 包装库。
+- [Evanpatchouli] 创建了这个项目。
 
 [GitHub]: https://github.com/Evanpatchouli/device-interception-example
 [Driver]: https://github.com/oblitum/Interception

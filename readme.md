@@ -1,4 +1,4 @@
-# Device Interception Example
+# cs2-jumpthrow-ez
 
 <p align="left">
   <a href="#"><img alt="github" src="https://img.shields.io/badge/Github-grey.svg"></a>
