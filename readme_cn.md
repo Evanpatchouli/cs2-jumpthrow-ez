@@ -8,7 +8,7 @@
   <a href="#"><img alt="CS:GO" src="https://img.shields.io/badge/CS:GO-black.svg"></a>
 </p>
 
-一个 **windows** 上捕获键盘和鼠标输入的 Node.js 示例程序。
+一个 **windows** 上的 Node.js 示例程序，用于在 CS2 中轻松实现跳投。
 
 ## 免责申明
 
@@ -28,7 +28,7 @@ npm run install:driver
 
 ## 示例用法
 
-在下面的示例代码中，应用了 CS2 中的急停和一些投掷操作，`J` 被设置为切换是否启用急停辅助。`F7` 被设置为触发跳投动作。
+在下面的示例代码中，应用了 CS2 中的一些投掷操作，`F7` 被设置为触发跳投动作。
 
 你可以在 `npm run start:node` 或 `npm run start:bun` 在 **node** 或 **bun** 环境下执行 `index.js`。
 
@@ -43,15 +43,9 @@ function main() {
   logger.info('【F11】前双键跳投');
   logger.info('【F12】Mirage VIP 慢烟');
 
-  state.SET_JITING(true);
-  state.SET_USE_JT_DURATION_CALC(true);
-  logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
-
   core.listen('keyboard', {
     after: async (stroke, input, baseKey, device) => {
       concurrentify(
-        // Add your side-effect handler below  往下添加附作用事件
-        jiting(stroke, input, "J"), // automatic-emergency-stop  jiting(stroke, input, "J", "K"), set the fourth parameter to switch the duration key.
         jumpThrow(stroke, input, "F7"), // jump + attack1
         jumpThrow2(stroke, input, "F8"), // jump + attack2
         forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1

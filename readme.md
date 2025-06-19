@@ -8,7 +8,7 @@
   <a href="#"><img alt="CS:GO" src="https://img.shields.io/badge/CS:GO-black.svg"></a>
 </p>
 
-An example Node.js application to capture keyboard and mouse strokes on **windows**.
+An example Node.js application to easily jump-throw on **windows** in CS2.
 
 ## Disclaimer
 
@@ -28,7 +28,7 @@ You'll need to **restart** for the driver installation to be complete.
 
 ## Example Usage
 
-In example codes below, stop-automatic and some throw-actions in _Counter-Strike 2_ are applied, and `J` is set to toggle whether or not to enable the automatic-emergency-stop hack. `F7` is set to trigger the jump-throw action.
+In example codes below, some throw-actions in _Counter-Strike 2_ are applied, `F7` is set to trigger the jump-throw action.
 
 You can execuate `npm run start:node` or `npm run start:bun` to run `index.js` with **node** or **bun**.
 
@@ -43,16 +43,11 @@ function main() {
   logger.info("【F11】前双键跳投");
   logger.info("【F12】Mirage VIP 慢烟");
 
-  state.SET_JITING(true);
-  state.SET_USE_JT_DURATION_CALC(true);
-  logger.info(`${chalk.yellow("Stop Emergency")} is ${chalk.yellow(!state.useJiting ? "disabled" : "enabled")}`);
-
   core
     .listen("keyboard", {
       after: async (stroke, input, baseKey, device) => {
         concurrentify(
           // Add your side-effect handler below  往下添加附作用事件
-          jiting(stroke, input, "J"), // automatic-emergency-stop  jiting(stroke, input, "J", "K"), set the fourth parameter to switch the duration key.
           jumpThrow(stroke, input, "F7"), // jump + attack1
           jumpThrow2(stroke, input, "F8"), // jump + attack2
           forwardJumpThrow(stroke, input, "F9"), // forward + jump + attack1

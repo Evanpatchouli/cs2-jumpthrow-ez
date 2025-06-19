@@ -1,0 +1,1 @@
+set NODE_ENV=production && node --no-warnings serve.js

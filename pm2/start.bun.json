@@ -1,7 +1,8 @@
 {
   "name": "di",
-  "cwd": "D:/Work/device-interception-example",
+  "cwd": "D:/Work/device-interception",
   "script": "./index.js",
+  "interpreter": "D:\\dvp\\nodejs\\node_modules\\bun\\bin\\bun.exe",
   "namespace": "device-interception",
   "env": {
     "NODE_ENV": "production",

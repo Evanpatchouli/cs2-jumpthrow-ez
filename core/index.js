@@ -1,20 +1,14 @@
 import * as os from "os";
 import chalk from "chalk";
-import keys from "./key_codes.json" assert { type: "json" };
-import mices from "./mouse_codes.json" assert { type: "json" };
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const keys = require('./key_codes.json');
+const mices = require('./mouse_codes.json');
 import ni from "node-interception";
 import state from "./state.js";
 import logger from "./logger.js";
 import { sequentialify, wait } from "./utils.js";
 import emitter, { onListen, offListen, onDestroy } from "./events.js";
-
-const {
-  isKeyActive,
-  areKeysActive,
-  getKeyState,
-  noneKeysActive,
-  someKeysActive,
-} = state;
 
 /**
  * @type {import("./types".Core['start'])}
@@ -57,11 +51,6 @@ export {
   interception,
   isListening,
   setListening,
-  isKeyActive,
-  areKeysActive,
-  getKeyState,
-  noneKeysActive,
-  someKeysActive,
   /** @type {import("./types").Core['onListen']} */
   onListen,
   /** @type {import("./types").Core['offListen']} */
@@ -371,42 +360,6 @@ export const upKey = async (device, key) => {
   await sequentialify(...funcs2);
 };
 
-/**
- * 清除鼠标滚动和移动状态记录
- */
-const clearMouseState = () => {
-  state.clearActiveKey('MWHEELUP');
-  state.clearActiveKey('MWHEELDOWN');
-  state.clearActiveKey('MOUSEMOVE');
-}
-
-/**
- * @param {import("node-interception").Stroke} stroke
- * @param {string} input
- * @param {string} base
- */
-const recordKeyState = (stroke, input, base) => {
-  const strokeKey = input;
-  const baseKey = base;
-  if (!strokeKey) return logger.warn('Unknown stroke key:', stroke);
-  if (stroke.type === "keyboard") {
-    if (strokeKey.endsWith('_down')) {
-      state.setActiveKey(baseKey);
-    } else if (strokeKey.endsWith('_up')) {
-      state.removeActiveKey(baseKey);
-    }
-  } else if (stroke.type === "mouse") {
-    if (['MWHEELDOWN', 'MWHEELUP', 'MOUSEMOVE'].includes(baseKey)) {
-      return state.setActiveKey(baseKey);
-    }
-    if (strokeKey.endsWith('_down')) {
-      state.setActiveKey(baseKey);
-    } else if (strokeKey.endsWith('_up')) {
-      state.removeActiveKey(baseKey);
-    }
-  }
-};
-
 /** @type {Map<String, Function>()} */
 const handlers = new Map();
 
@@ -470,10 +423,8 @@ export const listen = async (listened, handler) => {
       break;
     }
 
-    clearMouseState();
     state.listening && handler?.before && await handler.before(stroke, input, baseKey, device);
     device?.send(stroke);
-    recordKeyState(stroke, input, baseKey);
 
     if (!state.listening) {
       continue;

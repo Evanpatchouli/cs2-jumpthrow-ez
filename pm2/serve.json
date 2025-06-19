@@ -1,8 +1,7 @@
 {
   "name": "di-server",
-  "cwd": "D:/dvp/device-interception",
+  "cwd": "D:/Work/device-interception-example",
   "script": "./serve.js",
-  "interpreter": "D:\\dvp\\nodejs\\node_modules\\bun\\bin\\bun.exe",
   "namespace": "device-interception",
   "env": {
     "NODE_ENV": "production",
@@ -13,7 +12,6 @@
   "ignore_watch": [
     "node_modules"
   ],
-  "max_memory_restart": "200M",
   "out_file": "./pm2/logs/serve.log",
   "error_file": "./pm2/logs/serve-error.log"
 }

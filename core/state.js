@@ -15,40 +15,6 @@ const state = {
       }
     })
   },
-  keyState: {},
-  setActiveKey(key) {
-    const prev = state.keyState[key];
-    state.keyState[key] = {
-      active: true,
-      firstActive: prev?.active === false ? performance.now() : (prev?.firstActive || performance.now())
-    }
-  },
-  getKeyState(key) {
-    return state.keyState[key];
-  },
-  removeActiveKey(key) {
-    state.keyState[key] = {
-      active: false,
-      firstActive: state.keyState[key]?.firstActive
-    };
-  },
-  clearActiveKey(key)  {
-    if (state.isKeyActive(key)) {
-      state.removeActiveKey(key);
-    }
-  },
-  isKeyActive(key) {
-    return state.keyState[key]?.active;
-  },
-  areKeysActive(keys) {
-    return keys.every(key => state.isKeyActive(key));
-  },
-  noneKeysActive(keys) {
-    return keys.every(key => !state.isKeyActive(key));
-  },
-  someKeysActive(keys) {
-    return keys.some(key => state.isKeyActive(key));
-  },
   onListen: () => { },
   offListen: () => { },
 };

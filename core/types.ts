@@ -9,28 +9,6 @@ export declare namespace Core {
      * SET_LISTENING
      */
     SET_LISTENING(value: boolean): void;
-    /** 所有键的状态*/
-    private keyState: {
-      [key: string]: {
-        active: boolean;
-        firstActive: number;
-      };
-    };
-    getKeyState(key: string): State['keyState'][string];
-    setActiveKey(key: string): void;
-    removeActiveKey(key: string): void;
-    /**
-     * 先判断是否已经激活，否则不操作
-     */
-    clearActiveKey(key: string): void;
-    /** 询问某键是否处于激活状态 */
-    isKeyActive(key: string): boolean;
-    /** 询问某些键是否处于激活状态，可用于判断组合键 */
-    areKeysActive(keys: string[]): boolean;
-    /** 询问某些键是否全部不处于激活状态 */
-    noneKeysActive(keys: string[]): boolean;
-    /** 询问某些键是否至少有一项处于激活状态 */
-    someKeysActive(keys: string[]): boolean;
     onListen: () => void;
     offListen: () => void;
   }

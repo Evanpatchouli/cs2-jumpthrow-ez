@@ -1,7 +1,8 @@
 {
-  "name": "di",
+  "name": "di-server",
   "cwd": "D:/Work/device-interception-example",
-  "script": "./index.js",
+  "script": "./serve.js",
+  "interpreter": "D:\\dvp\\nodejs\\node_modules\\bun\\bin\\bun.exe",
   "namespace": "device-interception",
   "env": {
     "NODE_ENV": "production",
@@ -12,6 +13,6 @@
   "ignore_watch": [
     "node_modules"
   ],
-  "out_file": "./pm2/logs/start.log",
-  "error_file": "./pm2/logs/start-error.log"
+  "out_file": "./pm2/logs/serve.log",
+  "error_file": "./pm2/logs/serve-error.log"
 }
